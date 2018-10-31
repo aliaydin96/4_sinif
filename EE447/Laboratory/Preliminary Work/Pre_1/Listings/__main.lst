@@ -1,0 +1,123 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000 0000001F 
+                       number  EQU              31
+    3 00000000         
+    4 00000000                 AREA             sdata, DATA, READONLY
+    5 00000000                 THUMB
+    6 00000000 00      MSG     DCB              0x0
+    7 00000001 0D              DCB              0x0D
+    8 00000002 04              DCB              0x04
+    9 00000003         
+   10 00000003                 AREA             main, READONLY, CODE
+   11 00000000                 THUMB
+   12 00000000                 EXTERN           OutStr
+   13 00000000                 EXPORT           __main      ; Make available
+   14 00000000         
+   15 00000000         __main
+   16 00000000 F240 041F 
+              F2C0 0400        MOV32            R4, #number
+   17 00000008 F044 0400       ORR              R4, #0x0
+   18 0000000C 6825            LDR              R5, [R4]
+   19 0000000E F7FF FFFE       BL               OutStr
+   20 00000012 E7FE    Done    B                Done
+   21 00000014         
+   22 00000014         
+   23 00000014                 ALIGN
+   24 00000014                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\Keil\
+TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="
+__UVISION_VERSION SETA 526" --predefine="_RTE_ SETA 1" --predefine="TM4C123GH6P
+M SETA 1" --list=.\listings\__main.lst __main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MSG 00000000
+
+Symbol: MSG
+   Definitions
+      At line 6 in file __main.s
+   Uses
+      None
+Comment: MSG unused
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 4 in file __main.s
+   Uses
+      None
+Comment: sdata unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Done 00000012
+
+Symbol: Done
+   Definitions
+      At line 20 in file __main.s
+   Uses
+      At line 20 in file __main.s
+Comment: Done used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 15 in file __main.s
+   Uses
+      At line 13 in file __main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 10 in file __main.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+number 0000001F
+
+Symbol: number
+   Definitions
+      At line 2 in file __main.s
+   Uses
+      At line 16 in file __main.s
+Comment: number used once
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 12 in file __main.s
+   Uses
+      At line 19 in file __main.s
+Comment: OutStr used once
+1 symbol
+342 symbols in table
