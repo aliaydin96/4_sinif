@@ -37,7 +37,7 @@ ARM Macro Assembler    Page 1
                                                             torage register
    21 0000001A E7F5            B                findingNumber ;take next digit
    22 0000001C         
-   23 0000001C 4680    PORTAL  MOV              R8,R0       ;keep number a regi
+   23 0000001C 4606    PORTAL  MOV              R6,R0       ;keep number a regi
                                                             ster with no change
                                                             
    24 0000001E F7FF FFFE       BL               portals     ;go to portals subr

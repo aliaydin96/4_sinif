@@ -20,7 +20,7 @@ findingNumber 	BL 		InChar 			;take digit of input number
 				ADD 	R0,R5 			;add to number to storage register
 				B 		findingNumber 	;take next digit
 				
-PORTAL 			MOV 	R8,R0 			;keep number a register with no change
+PORTAL 			MOV 	R6,R0 			;keep number a register with no change
 				BL 		portals			;go to portals subroutine
 				MOV 	R4,R0 			;load number to r4
 				LDR 	R5,=FIRST

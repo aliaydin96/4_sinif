@@ -54,7 +54,7 @@ Image Symbol Table
     $v0                                      0x00000434   Number         0  __main.o(main)
     routines                                 0x0000046c   Section       92  convrt.o(routines)
     $v0                                      0x0000046c   Number         0  convrt.o(routines)
-    subroutine                               0x000004c8   Section       34  portals.o(subroutine)
+    subroutine                               0x000004c8   Section      260  portals.o(subroutine)
     $v0                                      0x000004c8   Number         0  portals.o(subroutine)
     STACK                                    0x20000000   Section     1024  startup.o(STACK)
     StackMem                                 0x20000000   Data           0  startup.o(STACK)
@@ -196,7 +196,7 @@ Image Symbol Table
     __rt_heap_expand$2region                 0x00000431   Thumb Code     2  heapauxi.o(.text)
     __main                                   0x00000435   Thumb Code     0  __main.o(main)
     CONVRT                                   0x0000046d   Thumb Code    92  convrt.o(routines)
-    portals                                  0x000004c9   Thumb Code    34  portals.o(subroutine)
+    portals                                  0x000004c9   Thumb Code   260  portals.o(subroutine)
 
 
 
@@ -206,9 +206,9 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000008ec, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000009cc, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000004ec, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000005cc, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -219,17 +219,17 @@ Memory Map of the image
     0x00000432   0x00000432   0x00000002   PAD
     0x00000434   0x00000434   0x00000038   Code   RO           18    main                __main.o
     0x0000046c   0x0000046c   0x0000005c   Code   RO           21    routines            convrt.o
-    0x000004c8   0x000004c8   0x00000022   Code   RO           25    subroutine          portals.o
+    0x000004c8   0x000004c8   0x00000104   Code   RO           25    subroutine          portals.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000004ec, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000005cc, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x000004ec   0x00000400   Data   RW            9    STACK               startup.o
+    0x20000000   0x000005cc   0x00000400   Data   RW            9    STACK               startup.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x000008ec, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x000009cc, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -245,13 +245,13 @@ Image component sizes
         92          0          0          0          0        412   convrt.o
        188         48          0          0          0        372   inchar.o
        236         54          0          0          0        364   outstr.o
-        34          0          0          0          0        376   portals.o
+       260          0          0          0          0        448   portals.o
        644        620          0       1024          0        816   startup.o
 
     ----------------------------------------------------------------------
-      1252        728          0       1024          0       2580   Object Totals
+      1476        728          0       1024          0       2652   Object Totals
          0          0          0          0          0          0   (incl. Generated)
-         2          0          0          0          0          0   (incl. Padding)
+         0          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -279,15 +279,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-      1260        728          0       1024          0       2532   Grand Totals
-      1260        728          0       1024          0       2532   ELF Image Totals
-      1260        728          0       1024          0          0   ROM Totals
+      1484        728          0       1024          0       2604   Grand Totals
+      1484        728          0       1024          0       2604   ELF Image Totals
+      1484        728          0       1024          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 1260 (   1.23kB)
+    Total RO  Size (Code + RO Data)                 1484 (   1.45kB)
     Total RW  Size (RW Data + ZI Data)              1024 (   1.00kB)
-    Total ROM Size (Code + RO Data + RW Data)       2284 (   2.23kB)
+    Total ROM Size (Code + RO Data + RW Data)       2508 (   2.45kB)
 
 ==============================================================================
 
