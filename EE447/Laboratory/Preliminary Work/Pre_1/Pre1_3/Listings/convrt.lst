@@ -1,0 +1,127 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000                 AREA             routines, CODE, READONLY
+    3 00000000                 THUMB
+    4 00000000                 EXPORT           CONVRT
+    5 00000000         
+    6 00000000         CONVRT  PROC
+    7 00000000 B41F            PUSH             {R0-R4}     ; preserve info in 
+                                                            registers
+    8 00000002 6004            STR              R4, [R0]
+    9 00000004 6806            LDR              R6, [R0]
+   10 00000006 F04F 000A       MOV              R0, #10     ;base value
+   11 0000000A F04F 0100       MOV              R1, #0
+   12 0000000E F04F 0200       MOV              R2, #0
+   13 00000012 F04F 0300       MOV              R3, #0
+   14 00000016         
+   15 00000016 FBB6 F6F0 
+                       loop1   UDIV             R6, R6, R0  ;number is divided 
+                                                            by 10 since to obta
+                                                            in next digit
+   16 0000001A F102 0201       ADD              R2, #1
+   17 0000001E F103 0301       ADD              R3, #1
+   18 00000022 2E00            CMP              R6, #0x0
+   19 00000024 D000            BEQ              loop2
+   20 00000026 E7F6            B                loop1
+   21 00000028         
+   22 00000028 FBB4 F1F0 
+                       loop2   UDIV             R1, R4, R0  ;number is divided 
+                                                            by 10
+   23 0000002C FB01 F100       MUL              R1, R0      ;number is multipli
+                                                            ed by 10
+   24 00000030 EBA4 0101       SUB              R1, R4, R1  ;I subtract R1 from
+                                                             R4 to find first d
+                                                            igit of decimal num
+                                                            ber
+   25 00000034 F101 0130       ADD              R1, #0x30   ;to convert ascii s
+                                                            tring constant, i a
+                                                            dded 0x30
+   26 00000038 F1A2 0201       SUB              R2, #1
+   27 0000003C 54A9            STRB             R1, [R5, R2] ;, #1 ;store digit
+                                                             in R5
+   28 0000003E FBB4 F4F0       UDIV             R4, R4, R0  ;number is divided 
+                                                            by 10 since to obta
+                                                            in next digit
+   29 00000042 2C00            CMP              R4, #0x0
+   30 00000044 D000            BEQ              end_of_operation
+   31 00000046 E7EF            B                loop2
+   32 00000048         
+   33 00000048         end_of_operation
+   34 00000048 441D            ADD              R5, R3
+   35 0000004A F04F 0604       MOV              R6, #0x04
+   36 0000004E F04F 030D       MOV              R3, #0x0D
+   37 00000052 F805 3B01       STRB             R3, [R5], #1 ; end of the trans
+                                                            mission
+   38 00000056 702E            STRB             R6, [R5]    ;new linE
+   39 00000058 BC1F            POP              {R0-R4}     ;take info on stack
+                                                            
+   40 0000005A 4770            BX               LR
+   41 0000005C                 ENDP
+   42 0000005C                 ALIGN
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   43 0000005C                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\convrt.d -o.\objects\convrt.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\convrt.lst ..\pre1_1-2\CO
+NVRT.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 6 in file ..\pre1_1-2\CONVRT.s
+   Uses
+      At line 4 in file ..\pre1_1-2\CONVRT.s
+Comment: CONVRT used once
+end_of_operation 00000048
+
+Symbol: end_of_operation
+   Definitions
+      At line 33 in file ..\pre1_1-2\CONVRT.s
+   Uses
+      At line 30 in file ..\pre1_1-2\CONVRT.s
+Comment: end_of_operation used once
+loop1 00000016
+
+Symbol: loop1
+   Definitions
+      At line 15 in file ..\pre1_1-2\CONVRT.s
+   Uses
+      At line 20 in file ..\pre1_1-2\CONVRT.s
+Comment: loop1 used once
+loop2 00000028
+
+Symbol: loop2
+   Definitions
+      At line 22 in file ..\pre1_1-2\CONVRT.s
+   Uses
+      At line 19 in file ..\pre1_1-2\CONVRT.s
+      At line 31 in file ..\pre1_1-2\CONVRT.s
+
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 2 in file ..\pre1_1-2\CONVRT.s
+   Uses
+      None
+Comment: routines unused
+5 symbols
+339 symbols in table

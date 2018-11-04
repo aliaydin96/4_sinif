@@ -1,0 +1,58 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         
+    3 00000000         
+    4 00000000                 AREA             routines, CODE, READONLY
+    5 00000000                 THUMB
+    6 00000000                 EXPORT           UPBND
+    7 00000000         
+    8 00000000         UPBND   PROC
+    9 00000000 2D55            CMP              R5,#0x55    ;compare input U(up
+                                                            )
+   10 00000002 BF08 1C62       ADDEQ            R2,R4,#1    ;if U(up), add midd
+                                                            le to 1 for new low
+                                                            er bound
+   11 00000006 2D44            CMP              R5,#0x44    ;compare input D(do
+                                                            wn)
+   12 00000008 BF08 1E63       SUBEQ            R3,R4,#1    ;if D(down), subtra
+                                                            ct middle to 1 for 
+                                                            new upper bound
+   13 0000000C 4770            BX               LR          ;go to main
+   14 0000000E         
+   15 0000000E                 ENDP
+   16 0000000E 00 00           ALIGN
+   17 00000010                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\upbnd.d -o.\objects\upbnd.o -I.\RTE\_Target_1 -IC:\Ke
+il_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSI
+S\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\listings\upbnd.lst UPBND.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+UPBND 00000000
+
+Symbol: UPBND
+   Definitions
+      At line 8 in file UPBND.s
+   Uses
+      At line 6 in file UPBND.s
+Comment: UPBND used once
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 4 in file UPBND.s
+   Uses
+      None
+Comment: routines unused
+2 symbols
+336 symbols in table

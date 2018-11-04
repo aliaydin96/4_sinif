@@ -1,0 +1,52 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         
+    3 00000000         
+    4 00000000                 AREA             routines, CODE, READONLY
+    5 00000000                 THUMB
+    6 00000000                 EXPORT           UPBND
+    7 00000000         
+    8 00000000         UPBND   PROC
+    9 00000000         
+   10 00000000         
+   11 00000000         
+   12 00000000         
+   13 00000000         
+   14 00000000         
+   15 00000000         
+   16 00000000                 ENDP
+                       
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\upbnd.d -o.\objects\upbnd.o -I.\RTE\_Target_1 -IC:\Ke
+il_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSI
+S\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\listings\upbnd.lst UPBND.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+UPBND 00000000
+
+Symbol: UPBND
+   Definitions
+      At line 8 in file UPBND.s
+   Uses
+      At line 6 in file UPBND.s
+Comment: UPBND used once
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 4 in file UPBND.s
+   Uses
+      None
+Comment: routines unused
+2 symbols
+335 symbols in table

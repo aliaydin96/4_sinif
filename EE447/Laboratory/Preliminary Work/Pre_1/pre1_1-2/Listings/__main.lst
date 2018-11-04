@@ -1,0 +1,157 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000 20004000 
+                       NUM     EQU              0x20004000  ; NUM memory locati
+                                                            on
+    3 00000000 20000400 
+                       FIRST   EQU              0x20000400  ;address for storin
+                                                            g digits
+    4 00000000 000ABC45 
+                       NUMBER  EQU              0x000ABC45  ;number will be con
+                                                            verted
+    5 00000000         
+    6 00000000                 AREA             main, CODE, READONLY
+    7 00000000                 THUMB
+    8 00000000                 EXTERN           CONVRT
+    9 00000000                 IMPORT           InChar
+   10 00000000                 EXTERN           OutStr
+   11 00000000                 EXPORT           __main
+   12 00000000         
+   13 00000000         __main
+   14 00000000 F7FF FFFE 
+                       loop    BL               InChar      ;determine to press
+                                                             any key
+   15 00000004 2D00            CMP              R5, #00     ;compare any key
+   16 00000006 D0FB            BEQ              loop        ;if any key did not
+                                                             press, back to loo
+                                                            p and wait for key
+   17 00000008 4805            LDR              R0, =NUM    ;load NUM to r0
+   18 0000000A 4906            LDR              R1, =NUMBER ;load number to r1
+   19 0000000C 4D06            LDR              R5, =FIRST  ;load address to r5
+                                                            
+   20 0000000E         
+   21 0000000E 6001            STR              R1, [R0]    ;to store number in
+                                                             the address of NUM
+                                                            
+   22 00000010 6804            LDR              R4, [R0]    ;to load number in 
+                                                            NUM to r4
+   23 00000012 F7FF FFFE       BL               CONVRT      ;to convert number 
+                                                            to decimal, go bran
+                                                            ch 
+   24 00000016 4D04            LDR              R5, =FIRST
+   25 00000018 F7FF FFFE       BL               OutStr      ;to write number on
+                                                             termite
+   26 0000001C E7F0            B                loop        ;back to loop
+   27 0000001E         
+   28 0000001E         
+   29 0000001E 00 00           ALIGN
+   30 00000020                 END
+              20004000 
+              000ABC45 
+              20000400 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\__main.lst __main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 13 in file __main.s
+   Uses
+      At line 11 in file __main.s
+Comment: __main used once
+loop 00000000
+
+Symbol: loop
+   Definitions
+      At line 14 in file __main.s
+   Uses
+      At line 16 in file __main.s
+      At line 26 in file __main.s
+
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 6 in file __main.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+FIRST 20000400
+
+Symbol: FIRST
+   Definitions
+      At line 3 in file __main.s
+   Uses
+      At line 19 in file __main.s
+      At line 24 in file __main.s
+
+NUM 20004000
+
+Symbol: NUM
+   Definitions
+      At line 2 in file __main.s
+   Uses
+      At line 17 in file __main.s
+Comment: NUM used once
+NUMBER 000ABC45
+
+Symbol: NUMBER
+   Definitions
+      At line 4 in file __main.s
+   Uses
+      At line 18 in file __main.s
+Comment: NUMBER used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CONVRT 00000000
+
+Symbol: CONVRT
+   Definitions
+      At line 8 in file __main.s
+   Uses
+      At line 23 in file __main.s
+Comment: CONVRT used once
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 9 in file __main.s
+   Uses
+      At line 14 in file __main.s
+Comment: InChar used once
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 10 in file __main.s
+   Uses
+      At line 25 in file __main.s
+Comment: OutStr used once
+3 symbols
+345 symbols in table
