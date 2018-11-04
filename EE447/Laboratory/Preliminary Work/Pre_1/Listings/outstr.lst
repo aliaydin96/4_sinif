@@ -301,10 +301,10 @@ ARM Macro Assembler    Page 5
               4000C018 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\outstr.d -o.\objects\outstr.o -I.\RTE\_Target_1 -IC:\
-Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\Keil\
-TM4C_DFP\1.1.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1" --predefine="
-__UVISION_VERSION SETA 526" --predefine="_RTE_ SETA 1" --predefine="TM4C123GH6P
-M SETA 1" --list=.\listings\outstr.lst "..\..\Supplementary Codes\OutStr.s"
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\outstr.lst "..\..\Supplem
+entary Codes\OutStr.s"
 
 
 
@@ -501,4 +501,4 @@ Absolute symbols
       At line 123 in file ..\..\Supplementary
 Comment: UART0_LCRH used once
 15 symbols
-358 symbols in table
+357 symbols in table
