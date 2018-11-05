@@ -1,14 +1,12 @@
+
 FIRST 	EQU 0x20000400
-
-
 		AREA	main, CODE, READONLY
 		THUMB
 		EXTERN CONVRT
 		IMPORT InChar
 		EXTERN OutStr
 		IMPORT UPBND
-		EXPORT __main
-				
+		EXPORT __main				
 __main			
 start 	MOV R0, #0 			;to store n value
 		MOV R1, #10 		;to take 2 digit decimal number
@@ -21,8 +19,7 @@ start 	MOV R0, #0 			;to store n value
 		ADD R0, R5 			;add to 2nd digit
 		LDR R2, =0x00 		;lower boundary
 		LDR R3, =0x01 		;upper boundary
-		LSL R3, R0 			;upper boundary = 2^n, shift r3 wrt n(input)
-		
+		LSL R3, R0 			;upper boundary = 2^n, shift r3 wrt n(input)		
 findingNumber
 		ADD R4, R3, R2 		;= upper + lower boundaries
 		LSR R4, #0x1 		;divide sum with 2 to obtain middle value
@@ -34,8 +31,7 @@ findingNumber
 		CMP R5, #0x43 		;if correct, start beginning again
 		BEQ start 			;go to start
 		BL  UPBND 			;if not correct, determine new boundaries
-		B   findingNumber	;go to find number
-		
+		B   findingNumber	;go to find number	
 		ALIGN
 		END
 
