@@ -12,67 +12,69 @@ ARM Macro Assembler    Page 1
     6 00000000         CONVRT  PROC
     7 00000000 B41F            PUSH             {R0-R4}     ; preserve info in 
                                                             registers
-    8 00000002 6004            STR              R4, [R0]
-    9 00000004 6806            LDR              R6, [R0]    ;R6=R4
-   10 00000006 F04F 000A       MOV              R0, #10     ;base value
-   11 0000000A F04F 0100       MOV              R1, #0
-   12 0000000E F04F 0200       MOV              R2, #0
-   13 00000012 F04F 0300       MOV              R3, #0
-   14 00000016         
-   15 00000016         loop1                                ;loop1 to find, num
+    8 00000002         ;STR  R4, [R0]
+    9 00000002         ;LDR  R7, [R4]  ;R6=R4
+   10 00000002         
+   11 00000002 F04F 000A       MOV              R0, #10     ;base value
+   12 00000006 F04F 0100       MOV              R1, #0
+   13 0000000A EB04 0701       ADD              R7, R4, R1
+   14 0000000E F04F 0200       MOV              R2, #0
+   15 00000012 F04F 0300       MOV              R3, #0
+   16 00000016         
+   17 00000016         loop1                                ;loop1 to find, num
                                                             ber how many digits
                                                              have
-   16 00000016 FBB6 F6F0       UDIV             R6, R6, R0  ;number is divided 
+   18 00000016 FBB7 F7F0       UDIV             R7, R7, R0  ;number is divided 
                                                             by 10 since to obta
                                                             in next digit
-   17 0000001A F102 0201       ADD              R2, #1      ;add 1 to counter1 
+   19 0000001A F102 0201       ADD              R2, #1      ;add 1 to counter1 
                                                             
-   18 0000001E F103 0301       ADD              R3, #1      ;add 1 to counter2
-   19 00000022 2E00            CMP              R6, #0x0    ;
-   20 00000024 D000            BEQ              loop2
-   21 00000026 E7F6            B                loop1
-   22 00000028         
-   23 00000028 FBB4 F1F0 
+   20 0000001E F103 0301       ADD              R3, #1      ;add 1 to counter2
+   21 00000022 2F00            CMP              R7, #0x0    ;
+   22 00000024 D000            BEQ              loop2
+   23 00000026 E7F6            B                loop1
+   24 00000028         
+   25 00000028 FBB4 F1F0 
                        loop2   UDIV             R1, R4, R0  ;number is divided 
                                                             by 10
-   24 0000002C FB01 F100       MUL              R1, R0      ;number is multipli
+   26 0000002C FB01 F100       MUL              R1, R0      ;number is multipli
                                                             ed by 10
-   25 00000030 EBA4 0101       SUB              R1, R4, R1  ;I subtract R1 from
+   27 00000030 EBA4 0101       SUB              R1, R4, R1  ;I subtract R1 from
                                                              R4 to find first d
                                                             igit of decimal num
                                                             ber
-   26 00000034 F101 0130       ADD              R1, #0x30   ;to convert ascii s
+   28 00000034 F101 0130       ADD              R1, #0x30   ;to convert ascii s
                                                             tring constant, i a
                                                             dded 0x30
-   27 00000038 F1A2 0201       SUB              R2, #1
-   28 0000003C 54A9            STRB             R1, [R5, R2] ;store digit in R5
+   29 00000038 F1A2 0201       SUB              R2, #1
+   30 0000003C 54A9            STRB             R1, [R5, R2] ;store digit in R5
                                                             
-   29 0000003E FBB4 F4F0       UDIV             R4, R4, R0  ;number is divided 
+   31 0000003E FBB4 F4F0       UDIV             R4, R4, R0  ;number is divided 
                                                             by 10 since to obta
                                                             in next digit
-   30 00000042 2C00            CMP              R4, #0x0
-   31 00000044 D000            BEQ              end_of_operation
-   32 00000046 E7EF            B                loop2
-   33 00000048         
-   34 00000048         end_of_operation
-   35 00000048 441D            ADD              R5, R3
-   36 0000004A F04F 0604       MOV              R6, #0x04
-   37 0000004E F04F 030D       MOV              R3, #0x0D
-   38 00000052 F805 3B01       STRB             R3, [R5], #1 ; end of the trans
+   32 00000042 2C00            CMP              R4, #0x0
+   33 00000044 D000            BEQ              end_of_operation
+   34 00000046 E7EF            B                loop2
+   35 00000048         
+   36 00000048         end_of_operation
+   37 00000048 441D            ADD              R5, R3
+   38 0000004A F04F 0704       MOV              R7, #0x04
+   39 0000004E F04F 030D       MOV              R3, #0x0D
+   40 00000052 F805 3B01       STRB             R3, [R5], #1 ; end of the trans
                                                             mission
-   39 00000056 702E            STRB             R6, [R5]    ;new linE
-   40 00000058 BC1F            POP              {R0-R4}     ;take info on stack
-                                                            
+   41 00000056 702F            STRB             R7, [R5]    ;new linE
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   41 0000005A 4770            BX               LR
-   42 0000005C                 ENDP
-   43 0000005C                 ALIGN
-   44 0000005C                 END
+   42 00000058 BC1F            POP              {R0-R4}     ;take info on stack
+                                                            
+   43 0000005A 4770            BX               LR
+   44 0000005C                 ENDP
+   45 0000005C                 ALIGN
+   46 0000005C                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\convrt.d -o.\objects\convrt.o -I.\RTE\_Target_1 -IC:\
 Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
@@ -96,26 +98,26 @@ end_of_operation 00000048
 
 Symbol: end_of_operation
    Definitions
-      At line 34 in file CONVRT.s
+      At line 36 in file CONVRT.s
    Uses
-      At line 31 in file CONVRT.s
+      At line 33 in file CONVRT.s
 Comment: end_of_operation used once
 loop1 00000016
 
 Symbol: loop1
    Definitions
-      At line 15 in file CONVRT.s
+      At line 17 in file CONVRT.s
    Uses
-      At line 21 in file CONVRT.s
+      At line 23 in file CONVRT.s
 Comment: loop1 used once
 loop2 00000028
 
 Symbol: loop2
    Definitions
-      At line 23 in file CONVRT.s
+      At line 25 in file CONVRT.s
    Uses
-      At line 20 in file CONVRT.s
-      At line 32 in file CONVRT.s
+      At line 22 in file CONVRT.s
+      At line 34 in file CONVRT.s
 
 routines 00000000
 

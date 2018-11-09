@@ -11,8 +11,8 @@ ARM Macro Assembler    Page 1
     3 00000000 20000400 
                        FIRST   EQU              0x20000400  ;address for storin
                                                             g digits
-    4 00000000 000ABC45 
-                       NUMBER  EQU              0x000ABC45  ;number will be con
+    4 00000000 098ABCDE 
+                       NUMBER  EQU              0x098ABCDE  ;number will be con
                                                             verted
     5 00000000         
     6 00000000                 AREA             main, CODE, READONLY
@@ -43,7 +43,8 @@ ARM Macro Assembler    Page 1
    23 00000012 F7FF FFFE       BL               CONVRT      ;to convert number 
                                                             to decimal, go bran
                                                             ch 
-   24 00000016 4D04            LDR              R5, =FIRST
+   24 00000016 4D04            LDR              R5, =FIRST  ;load again address
+                                                            
    25 00000018 F7FF FFFE       BL               OutStr      ;to write number on
                                                              termite
    26 0000001C E7F0            B                loop        ;back to loop
@@ -52,7 +53,7 @@ ARM Macro Assembler    Page 1
    29 0000001E 00 00           ALIGN
    30 00000020                 END
               20004000 
-              000ABC45 
+              098ABCDE 
               20000400 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
@@ -114,7 +115,7 @@ Symbol: NUM
    Uses
       At line 17 in file __main.s
 Comment: NUM used once
-NUMBER 000ABC45
+NUMBER 098ABCDE
 
 Symbol: NUMBER
    Definitions

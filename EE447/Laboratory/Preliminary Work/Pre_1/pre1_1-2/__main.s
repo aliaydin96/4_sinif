@@ -1,7 +1,7 @@
 
 NUM 		EQU 0x20004000 ; NUM memory location
 FIRST 		EQU 0x20000400 ;address for storing digits
-NUMBER 		EQU 0x000ABC45 ;number will be converted
+NUMBER 		EQU 0x098ABCDE ;number will be converted
 
 			AREA	main, CODE, READONLY
 			THUMB
