@@ -1,0 +1,425 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ******** 
+    2 00000000         ; Program_Directives.s  
+    3 00000000         ; Copies the table from one location
+    4 00000000         ; to another memory location.           
+    5 00000000         ; Directives and Addressing modes are   
+    6 00000000         ; explained with this program.   
+    7 00000000         ;*******************************************************
+                       ******** 
+    8 00000000         ;*******************************************************
+                       ******** 
+    9 00000000         ; EQU Directives
+   10 00000000         ; These directives do not allocate memory
+   11 00000000         ;*******************************************************
+                       ********
+   12 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   13 00000000 00000010 
+                       OFFSET  EQU              0x10
+   14 00000000 20000480 
+                       FIRST   EQU              0x20000480
+   15 00000000 20000410 
+                       STORE   EQU              0x20000410
+   16 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+   17 00000000 40005400 
+                       GPIO_PORTB_DIR
+                               EQU              0x40005400
+   18 00000000 40005420 
+                       GPIO_PORTB_AFSEL
+                               EQU              0x40005420
+   19 00000000 4000551C 
+                       GPIO_PORTB_DEN
+                               EQU              0x4000551C
+   20 00000000 40005510 
+                       GPIO_PORTB_PUR
+                               EQU              0x40005510
+   21 00000000 40005514 
+                       GPIO_PORTB_PDR
+                               EQU              0x40005514
+   22 00000000 0000000F 
+                       IOB     EQU              0x0F
+   23 00000000 400FE608 
+                       SYSCTL_RCGCGPIO
+                               EQU              0x400FE608
+   24 00000000         
+   25 00000000         ;*******************************************************
+                       ********
+   26 00000000         ; Directives - This Data Section is part of the code
+   27 00000000         ; It is in the read only section  so values cannot be ch
+                       anged.
+   28 00000000         ;*******************************************************
+                       ********
+   29 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   30 00000000                 AREA             sdata, DATA, READONLY
+   31 00000000                 THUMB
+   32 00000000 10      CTR1    DCB              0x10
+   33 00000001 43 6F 70 
+              79 69 6E 
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+              67 20 74 
+              61 62 6C 
+              65 2E 2E 
+              2E       MSG     DCB              "Copying table..."
+   34 00000011 0D              DCB              0x0D
+   35 00000012 04              DCB              0x04
+   36 00000013         ;*******************************************************
+                       ********
+   37 00000013         ; Program section           
+   38 00000013         ;*******************************************************
+                       ********
+   39 00000013         ;LABEL  DIRECTIVE VALUE  COMMENT
+   40 00000013                 AREA             main, READONLY, CODE
+   41 00000000                 THUMB
+   42 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   43 00000000                 EXTERN           InChar      ; Serial input Adde
+                                                            d
+   44 00000000                 EXTERN           delay       ;
+   45 00000000                 EXPORT           __main      ; Make available
+   46 00000000         
+   47 00000000         __main
+   48 00000000 492F    Start   LDR              R1 , =SYSCTL_RCGCGPIO
+   49 00000002 6808            LDR              R0 , [ R1 ]
+   50 00000004 F040 0002       ORR              R0 , R0 , #0x2 ;Port B clock en
+                                                            abled
+   51 00000008 6008            STR              R0 , [ R1 ]
+   52 0000000A BF00            NOP                          ;Wait for clock to 
+                                                            stabilize
+   53 0000000C BF00            NOP
+   54 0000000E BF00            NOP
+   55 00000010 492C            LDR              R1 , =GPIO_PORTB_DIR ; c o n f 
+                                                            i g . o f p o r t B
+                                                             s t a r t s
+   56 00000012 6808            LDR              R0 , [ R1 ]
+   57 00000014 F020 00FF       BIC              R0 , #0xFF
+   58 00000018 F040 000F       ORR              R0 , #IOB   ;00001111 1->output
+                                                            
+   59 0000001C 6008            STR              R0 , [ R1 ]
+   60 0000001E 492A            LDR              R1 , =GPIO_PORTB_AFSEL
+   61 00000020 6808            LDR              R0 , [ R1 ]
+   62 00000022 F020 00FF       BIC              R0 , #0xFF
+   63 00000026 6008            STR              R0 , [ R1 ]
+   64 00000028 4928            LDR              R1 , =GPIO_PORTB_DEN
+   65 0000002A 6808            LDR              R0 , [ R1 ]
+   66 0000002C F040 00FF       ORR              R0 , #0xFF
+   67 00000030 6008            STR              R0 , [ R1 ]
+   68 00000032 4927            LDR              R1 , =GPIO_PORTB_PUR
+   69 00000034 6808            LDR              R0 , [ R1 ]
+   70 00000036 F040 00F0       ORR              R0 , #0xF0
+   71 0000003A 6008            STR              R0 , [ R1 ]
+   72 0000003C         
+   73 0000003C 4925    Begin   LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1
+   74 0000003E F04F 00FF       MOV              R0,#0xFF
+   75 00000042 6008            STR              R0,[R1]     ; All outputs OFF
+   76 00000044         
+   77 00000044 F04F 020F 
+                       InputCheck
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+                               MOV              R2,#15
+   78 00000048 6808            LDR              R0,[R1]     ;
+   79 0000004A EA4F 1010       LSR              R0,#4       ;
+   80 0000004E 0840            LSRS             R0,#1       ;
+   81 00000050 BF38 F002 
+              02FE             ANDCC            R2,#0xFE    ;
+   82 00000056 0840            LSRS             R0,#1       ;
+   83 00000058 BF38 F002 
+              02FD             ANDCC            R2,#0xFD    ;
+   84 0000005E 0840            LSRS             R0,#1       ;
+   85 00000060 BF38 F002 
+              02FB             ANDCC            R2,#0xFB    ;
+   86 00000066 0840            LSRS             R0,#1       ;
+   87 00000068 BF38 F002 
+              02F7             ANDCC            R2,#0xF7    ;
+   88 0000006E 2A0F            CMP              R2,#15
+   89 00000070 D0E8            BEQ              InputCheck
+   90 00000072 F646 2000 
+              F2C0 0018        MOV32            R0,#1600000 ; 100msec delay
+   91 0000007A F7FF FFFE       BL               delay
+   92 0000007E F04F 040F       MOV              R4,#15
+   93 00000082 6808            LDR              R0,[R1]     ;
+   94 00000084 EA4F 1010       LSR              R0,#4       ;
+   95 00000088 0840            LSRS             R0,#1       ;
+   96 0000008A BF38 F004 
+              04FE             ANDCC            R4,#0xFE    ;
+   97 00000090 0840            LSRS             R0,#1       ;
+   98 00000092 BF38 F004 
+              04FD             ANDCC            R4,#0xFD    ;
+   99 00000098 0840            LSRS             R0,#1       ;
+  100 0000009A BF38 F004 
+              04FB             ANDCC            R4,#0xFB    ;
+  101 000000A0 0840            LSRS             R0,#1       ;
+  102 000000A2 BF38 F004 
+              04F7             ANDCC            R4,#0xF7    ;
+  103 000000A8 42A2            CMP              R2,R4       ; IF they are equal
+                                                             set the output
+  104 000000AA D1CB            BNE              InputCheck
+  105 000000AC         ; If an input is read
+  106 000000AC 4909            LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1
+  107 000000AE 600C            STR              R4,[R1]     ; Corresponding Out
+                                                            puts set high
+  108 000000B0 F249 20C0 
+              F2C0 1083        MOV32            R0,#25400000 ; 7Sec
+  109 000000B8 F7FF FFFE       BL               delay
+  110 000000BC E7BE            B                Begin
+  111 000000BE         
+  112 000000BE         ;*******************************************************
+                       ********
+  113 000000BE         ; End of the program  section
+  114 000000BE         ;*******************************************************
+                       ********
+  115 000000BE         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+  116 000000BE 00 00           ALIGN
+  117 000000C0                 END
+              400FE608 
+              40005400 
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+              40005420 
+              4000551C 
+              40005510 
+              400053FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q2main.d -o.\objects\q2main.o -I"C:\Users\Furkan\Goog
+le Drive\Ders Kitaplarý-Notlar\4. Sýnýf\EE447\LAB\Exp4\Q2\RTE" -IC:\Keil_v5\ARM
+\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSIS\Include
+ --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --predefi
+ne="TM4C123GH6PM SETA 1" --list=.\listings\q2main.lst Q2Main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CTR1 00000000
+
+Symbol: CTR1
+   Definitions
+      At line 32 in file Q2Main.s
+   Uses
+      None
+Comment: CTR1 unused
+MSG 00000001
+
+Symbol: MSG
+   Definitions
+      At line 33 in file Q2Main.s
+   Uses
+      None
+Comment: MSG unused
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 30 in file Q2Main.s
+   Uses
+      None
+Comment: sdata unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Begin 0000003C
+
+Symbol: Begin
+   Definitions
+      At line 73 in file Q2Main.s
+   Uses
+      At line 110 in file Q2Main.s
+Comment: Begin used once
+InputCheck 00000044
+
+Symbol: InputCheck
+   Definitions
+      At line 77 in file Q2Main.s
+   Uses
+      At line 89 in file Q2Main.s
+      At line 104 in file Q2Main.s
+
+Start 00000000
+
+Symbol: Start
+   Definitions
+      At line 48 in file Q2Main.s
+   Uses
+      None
+Comment: Start unused
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 47 in file Q2Main.s
+   Uses
+      At line 45 in file Q2Main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 40 in file Q2Main.s
+   Uses
+      None
+Comment: main unused
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+FIRST 20000480
+
+Symbol: FIRST
+   Definitions
+      At line 14 in file Q2Main.s
+   Uses
+      None
+Comment: FIRST unused
+GPIO_PORTB_AFSEL 40005420
+
+Symbol: GPIO_PORTB_AFSEL
+   Definitions
+      At line 18 in file Q2Main.s
+   Uses
+      At line 60 in file Q2Main.s
+Comment: GPIO_PORTB_AFSEL used once
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 16 in file Q2Main.s
+   Uses
+      At line 73 in file Q2Main.s
+      At line 106 in file Q2Main.s
+
+GPIO_PORTB_DEN 4000551C
+
+Symbol: GPIO_PORTB_DEN
+   Definitions
+      At line 19 in file Q2Main.s
+   Uses
+      At line 64 in file Q2Main.s
+Comment: GPIO_PORTB_DEN used once
+GPIO_PORTB_DIR 40005400
+
+Symbol: GPIO_PORTB_DIR
+   Definitions
+      At line 17 in file Q2Main.s
+   Uses
+      At line 55 in file Q2Main.s
+Comment: GPIO_PORTB_DIR used once
+GPIO_PORTB_PDR 40005514
+
+Symbol: GPIO_PORTB_PDR
+   Definitions
+      At line 21 in file Q2Main.s
+   Uses
+      None
+Comment: GPIO_PORTB_PDR unused
+GPIO_PORTB_PUR 40005510
+
+Symbol: GPIO_PORTB_PUR
+   Definitions
+      At line 20 in file Q2Main.s
+   Uses
+      At line 68 in file Q2Main.s
+Comment: GPIO_PORTB_PUR used once
+IOB 0000000F
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+Symbol: IOB
+   Definitions
+      At line 22 in file Q2Main.s
+   Uses
+      At line 58 in file Q2Main.s
+Comment: IOB used once
+OFFSET 00000010
+
+Symbol: OFFSET
+   Definitions
+      At line 13 in file Q2Main.s
+   Uses
+      None
+Comment: OFFSET unused
+STORE 20000410
+
+Symbol: STORE
+   Definitions
+      At line 15 in file Q2Main.s
+   Uses
+      None
+Comment: STORE unused
+SYSCTL_RCGCGPIO 400FE608
+
+Symbol: SYSCTL_RCGCGPIO
+   Definitions
+      At line 23 in file Q2Main.s
+   Uses
+      At line 48 in file Q2Main.s
+Comment: SYSCTL_RCGCGPIO used once
+11 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 43 in file Q2Main.s
+   Uses
+      None
+Comment: InChar unused
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 42 in file Q2Main.s
+   Uses
+      None
+Comment: OutStr unused
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 44 in file Q2Main.s
+   Uses
+      At line 91 in file Q2Main.s
+      At line 109 in file Q2Main.s
+
+3 symbols
+358 symbols in table

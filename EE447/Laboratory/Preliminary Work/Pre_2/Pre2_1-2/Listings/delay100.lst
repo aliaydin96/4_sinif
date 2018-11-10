@@ -1,0 +1,70 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         
+    3 00000000         
+    4 00000000                 AREA             subroutine , CODE, READONLY
+    5 00000000                 THUMB
+    6 00000000                 EXPORT           DELAY       ;
+    7 00000000         DELAY   PROC
+    8 00000000 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000 ;100MSEC DELAY
+    9 00000008 1E40    GoBack  SUBS             R0, R0, #1
+   10 0000000A D000            BEQ              End_Delay
+   11 0000000C E7FC            B                GoBack
+   12 0000000E 4770    End_Delay
+                               BX               LR          ;end
+   13 00000010         
+   14 00000010                 ALIGN
+   15 00000010                 ENDP
+   16 00000010                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\delay100.d -o.\objects\delay100.o -I.\RTE\_Target_1 -
+IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\AR
+M\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA
+ 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\delay100.lst DELAY100
+.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DELAY 00000000
+
+Symbol: DELAY
+   Definitions
+      At line 7 in file DELAY100.s
+   Uses
+      At line 6 in file DELAY100.s
+Comment: DELAY used once
+End_Delay 0000000E
+
+Symbol: End_Delay
+   Definitions
+      At line 12 in file DELAY100.s
+   Uses
+      At line 10 in file DELAY100.s
+Comment: End_Delay used once
+GoBack 00000008
+
+Symbol: GoBack
+   Definitions
+      At line 9 in file DELAY100.s
+   Uses
+      At line 11 in file DELAY100.s
+Comment: GoBack used once
+subroutine 00000000
+
+Symbol: subroutine
+   Definitions
+      At line 4 in file DELAY100.s
+   Uses
+      None
+Comment: subroutine unused
+4 symbols
+338 symbols in table
