@@ -44,45 +44,31 @@ Start		LDR 	R1,	=SYSCTL_RCGCGPIO
 			STR 	R0, [R1]
 			LDR 	R1, =GPIO_PORTB_PUR		;pull up resistor settle
 			LDR 	R0, [R1]
-			ORR 	R0, #0x0F				;for input pin, pull up resistor is enabled
+			ORR 	R0, #0x00				;for input pin, pull up resistor is enabled
 			STR 	R0, [R1]
 			
 Begin		LDR		R1,=GPIO_PORTB_DATA		;Data address in R1
 			MOV		R0,#0xFF
 			STR		R0,[R1]					;All outputs OFF
 			
-InputCheck	MOV		R2,#0xF0
-			LDR 	R0,[R1]
-			LSR		R0,#4
-			LSRS	R0,#1
-			ANDCC	R2,#0xEF				;whether B4 is pushed or not
-			LSRS	R0,#1
-			ANDCC	R2,#0xDF				;whether B5 is pushed or not
-			LSRS	R0,#1
-			ANDCC	R2,#0xBF				;whether B6 is pushed or not
-			LSRS	R0,#1
-			ANDCC	R2,#0x7F				;whether B7 is pushed or not
-			CMP		R2,#0xF0
+InputCheck	
+			LDR		R1,=GPIO_PORTB_DATA
+			LDR		R0, [R1]
+			AND		R2, R0, #0x0F
+			CMP		R2,#0x0F
 			BEQ		InputCheck
-			MOV32 	R0,#1600000				;wait 100msec delay
+			MOV32 	R0,#160000				;wait 100msec delay
 			BL		DELAY					;prevent from bouncing
-			MOV		R4,#0xF0
-			LDR 	R0,[R1]
-			LSR		R0,#4;
-			LSRS	R0,#1
-			ANDCC	R4,#0xEF				;whether B4 is pushed or not
-			LSRS	R0,#1
-			ANDCC	R4,#0xDF				;whether B5 is pushed or not
-			LSRS	R0,#1
-			ANDCC	R4,#0xBF				;whether B6 is pushed or not
-			LSRS	R0,#1
-			ANDCC	R4,#0x7F				;whether B7 is pushed or not
-			CMP		R2,R4 					; IF they are equal set the output
+			LDR		R1,=GPIO_PORTB_DATA
+			LDR		R0, [R1]
+			AND		R4, R0, #0x0F
+			CMP		R2, R4 					; IF they are equal set the output
 			BNE		InputCheck
 											; If an input is read
 			LDR		R1,=GPIO_PORTB_DATA		; Data address in R1
+			LSL		R4, #4
 			STR		R4,[R1]					;Corresponding Outputs set high
-			MOV32	R0,#18142857 			;5Sec
+			MOV32	R0,#16000000 			;5Sec
 			BL		DELAY
 			B 		Begin
 			

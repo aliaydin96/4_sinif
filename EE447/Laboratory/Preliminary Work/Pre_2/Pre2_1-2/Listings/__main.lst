@@ -45,7 +45,7 @@ ARM Macro Assembler    Page 1
    21 00000000                 EXPORT           __main
    22 00000000         
    23 00000000         __main
-   24 00000000 492F    Start   LDR              R1, =SYSCTL_RCGCGPIO
+   24 00000000 491F    Start   LDR              R1, =SYSCTL_RCGCGPIO
    25 00000002 6808            LDR              R0, [R1]
    26 00000004 F040 0002       ORR              R0, R0, #0x2 ;Port B clock is e
                                                             nabled R0 = 0000001
@@ -56,7 +56,7 @@ ARM Macro Assembler    Page 1
    29 0000000C BF00            NOP
    30 0000000E BF00            NOP
    31 00000010         
-   32 00000010 492C            LDR              R1, =GPIO_PORTB_DIR ;direction 
+   32 00000010 491C            LDR              R1, =GPIO_PORTB_DIR ;direction 
                                                             of port B pins 
    33 00000012 6808            LDR              R0, [R1]
    34 00000014 F020 00FF       BIC              R0, #0xFF
@@ -70,102 +70,70 @@ ARM Macro Assembler    Page 2
 
 
    36 0000001C 6008            STR              R0, [R1]
-   37 0000001E 492A            LDR              R1, =GPIO_PORTB_AFSEL 
+   37 0000001E 491A            LDR              R1, =GPIO_PORTB_AFSEL 
                                                             ;for afsel disable
    38 00000020 6808            LDR              R0, [R1]
    39 00000022 F020 00FF       BIC              R0, #0xFF
    40 00000026 6008            STR              R0, [R1]
-   41 00000028 4928            LDR              R1, =GPIO_PORTB_DEN ;all pins a
+   41 00000028 4918            LDR              R1, =GPIO_PORTB_DEN ;all pins a
                                                             re digital
    42 0000002A 6808            LDR              R0, [R1]
    43 0000002C F040 00FF       ORR              R0, #0xFF
    44 00000030 6008            STR              R0, [R1]
-   45 00000032 4927            LDR              R1, =GPIO_PORTB_PUR ;pull up re
+   45 00000032 4917            LDR              R1, =GPIO_PORTB_PUR ;pull up re
                                                             sistor settle
    46 00000034 6808            LDR              R0, [R1]
-   47 00000036 F040 000F       ORR              R0, #0x0F   ;for input pin, pul
+   47 00000036 F040 0000       ORR              R0, #0x00   ;for input pin, pul
                                                             l up resistor is en
                                                             abled
    48 0000003A 6008            STR              R0, [R1]
    49 0000003C         
-   50 0000003C 4925    Begin   LDR              R1,=GPIO_PORTB_DATA 
+   50 0000003C 4915    Begin   LDR              R1,=GPIO_PORTB_DATA 
                                                             ;Data address in R1
                                                             
    51 0000003E F04F 00FF       MOV              R0,#0xFF
    52 00000042 6008            STR              R0,[R1]     ;All outputs OFF
    53 00000044         
-   54 00000044 F04F 02F0 
-                       InputCheck
-                               MOV              R2,#0xF0
-   55 00000048 6808            LDR              R0,[R1]
-   56 0000004A EA4F 1010       LSR              R0,#4
-   57 0000004E 0840            LSRS             R0,#1
-   58 00000050 BF38 F002 
-              02EF             ANDCC            R2,#0xEF    ;whether B4 is push
-                                                            ed or not
-   59 00000056 0840            LSRS             R0,#1
-   60 00000058 BF38 F002 
-              02DF             ANDCC            R2,#0xDF    ;whether B5 is push
-                                                            ed or not
-   61 0000005E 0840            LSRS             R0,#1
-   62 00000060 BF38 F002 
-              02BF             ANDCC            R2,#0xBF    ;whether B6 is push
-                                                            ed or not
-   63 00000066 0840            LSRS             R0,#1
-   64 00000068 BF38 F002 
-              027F             ANDCC            R2,#0x7F    ;whether B7 is push
-                                                            ed or not
-   65 0000006E 2AF0            CMP              R2,#0xF0
-   66 00000070 D0E8            BEQ              InputCheck
-   67 00000072 F646 2000 
-              F2C0 0018        MOV32            R0,#1600000 ;wait 100msec delay
+   54 00000044         InputCheck
+   55 00000044 4913            LDR              R1,=GPIO_PORTB_DATA
+   56 00000046 6808            LDR              R0, [R1]
+   57 00000048 F000 020F       AND              R2, R0, #0x0F
+   58 0000004C 2A0F            CMP              R2,#0x0F
+   59 0000004E D0F9            BEQ              InputCheck
+   60 00000050 F247 1000 
+              F2C0 0002        MOV32            R0,#160000  ;wait 100msec delay
                                                             
-   68 0000007A F7FF FFFE       BL               DELAY       ;prevent from bounc
+   61 00000058 F7FF FFFE       BL               DELAY       ;prevent from bounc
                                                             ing
-   69 0000007E F04F 04F0       MOV              R4,#0xF0
-   70 00000082 6808            LDR              R0,[R1]
-   71 00000084 EA4F 1010       LSR              R0,#4       ;
-   72 00000088 0840            LSRS             R0,#1
-   73 0000008A BF38 F004 
-              04EF             ANDCC            R4,#0xEF    ;whether B4 is push
+   62 0000005C 490D            LDR              R1,=GPIO_PORTB_DATA
+   63 0000005E 6808            LDR              R0, [R1]
+   64 00000060 F000 040F       AND              R4, R0, #0x0F
+   65 00000064 42A2            CMP              R2, R4      ; IF they are equal
+                                                             set the output
+   66 00000066 D1ED            BNE              InputCheck
+   67 00000068         ; If an input is read
+   68 00000068 490A            LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1
+   69 0000006A EA4F 1404       LSL              R4, #4
+   70 0000006E 600C            STR              R4,[R1]     ;Corresponding Outp
+                                                            uts set high
+   71 00000070 F242 4000 
+              F2C0 00F4        MOV32            R0,#16000000 ;5Sec
+   72 00000078 F7FF FFFE       BL               DELAY
+   73 0000007C E7DE            B                Begin
+   74 0000007E         
+   75 0000007E 00 00           ALIGN
+   76 00000080                 END
+              400FE608 
+              40005400 
+              40005420 
+              4000551C 
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-                                                            ed or not
-   74 00000090 0840            LSRS             R0,#1
-   75 00000092 BF38 F004 
-              04DF             ANDCC            R4,#0xDF    ;whether B5 is push
-                                                            ed or not
-   76 00000098 0840            LSRS             R0,#1
-   77 0000009A BF38 F004 
-              04BF             ANDCC            R4,#0xBF    ;whether B6 is push
-                                                            ed or not
-   78 000000A0 0840            LSRS             R0,#1
-   79 000000A2 BF38 F004 
-              047F             ANDCC            R4,#0x7F    ;whether B7 is push
-                                                            ed or not
-   80 000000A8 42A2            CMP              R2,R4       ; IF they are equal
-                                                             set the output
-   81 000000AA D1CB            BNE              InputCheck
-   82 000000AC         ; If an input is read
-   83 000000AC 4909            LDR              R1,=GPIO_PORTB_DATA ; Data addr
-                                                            ess in R1
-   84 000000AE 600C            STR              R4,[R1]     ;Corresponding Outp
-                                                            uts set high
-   85 000000B0 F24D 6089 
-              F2C0 1014        MOV32            R0,#18142857 ;5Sec
-   86 000000B8 F7FF FFFE       BL               DELAY
-   87 000000BC E7BE            B                Begin
-   88 000000BE         
-   89 000000BE 00 00           ALIGN
-   90 000000C0                 END
-              400FE608 
-              40005400 
-              40005420 
-              4000551C 
               40005510 
               400053FC 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
@@ -185,7 +153,7 @@ Symbol: Begin
    Definitions
       At line 50 in file __main.s
    Uses
-      At line 87 in file __main.s
+      At line 73 in file __main.s
 Comment: Begin used once
 InputCheck 00000044
 
@@ -193,8 +161,8 @@ Symbol: InputCheck
    Definitions
       At line 54 in file __main.s
    Uses
+      At line 59 in file __main.s
       At line 66 in file __main.s
-      At line 81 in file __main.s
 
 Start 00000000
 
@@ -250,7 +218,9 @@ Symbol: GPIO_PORTB_DATA
       At line 7 in file __main.s
    Uses
       At line 50 in file __main.s
-      At line 83 in file __main.s
+      At line 55 in file __main.s
+      At line 62 in file __main.s
+      At line 68 in file __main.s
 
 GPIO_PORTB_DEN 4000551C
 
@@ -284,13 +254,13 @@ Symbol: GPIO_PORTB_PUR
    Uses
       At line 45 in file __main.s
 Comment: GPIO_PORTB_PUR used once
-IOB 000000F0
-
 
 
 
 ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Absolute symbols
+
+IOB 000000F0
 
 Symbol: IOB
    Definitions
@@ -335,8 +305,8 @@ Symbol: DELAY
    Definitions
       At line 20 in file __main.s
    Uses
-      At line 68 in file __main.s
-      At line 86 in file __main.s
+      At line 61 in file __main.s
+      At line 72 in file __main.s
 
 1 symbol
 353 symbols in table
