@@ -12,14 +12,10 @@ GPIO_PORTB_PUR 		EQU 0x40005510
 GPIO_PORTB_PDR 		EQU 0x40005514	
 IOB 				EQU 0xF0
 SYSCTL_RCGCGPIO 	EQU 0x400FE608
-
-
-
 			AREA    	main, READONLY, CODE
 			THUMB					
 			EXTERN		DELAY;
 			EXPORT  	__main			
-
 __main
 Start		LDR 	R1,	=SYSCTL_RCGCGPIO
 			LDR 	R0, [R1]
@@ -52,23 +48,23 @@ Begin		LDR		R1,=GPIO_PORTB_DATA		;Data address in R1
 			STR		R0,[R1]					;All outputs OFF
 			
 InputCheck	
-			LDR		R1,=GPIO_PORTB_DATA
-			LDR		R0, [R1]
-			AND		R2, R0, #0x0F
-			CMP		R2,#0x0F
+			LDR		R1,=GPIO_PORTB_DATA		
+			LDR		R0, [R1]				
+			AND		R2, R0, #0x0F			;and r0 with F, to find out which button is pressed
+			CMP		R2,#0x0F				;if buttons are not pressed, go to beginning of loop
 			BEQ		InputCheck
 			MOV32 	R0,#160000				;wait 100msec delay
-			BL		DELAY					;prevent from bouncing
-			LDR		R1,=GPIO_PORTB_DATA
-			LDR		R0, [R1]
-			AND		R4, R0, #0x0F
+			BL		DELAY					;prevent from bouncing, wait some sec 
+			LDR		R1,=GPIO_PORTB_DATA		
+			LDR		R0, [R1]				
+			AND		R4, R0, #0x0F			;and r0 with F, to find out which button is pressed
 			CMP		R2, R4 					; IF they are equal set the output
 			BNE		InputCheck
 											; If an input is read
 			LDR		R1,=GPIO_PORTB_DATA		; Data address in R1
-			LSL		R4, #4
+			LSL		R4, #4					;shift 4 times for output
 			STR		R4,[R1]					;Corresponding Outputs set high
-			MOV32	R0,#16000000 			;5Sec
+			MOV32	R0,#16000000 			;wait 5Sec
 			BL		DELAY
 			B 		Begin
 			
