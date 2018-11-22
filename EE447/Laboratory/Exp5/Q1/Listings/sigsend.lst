@@ -1,0 +1,84 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+    2 00000000         ;*******************************************************
+                       ********
+    3 00000000         ; Program section           
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+    6 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    7 00000000                 AREA             rutins , CODE, READONLY
+    8 00000000                 THUMB
+    9 00000000                 EXPORT           SignalSend  ;
+   10 00000000         SignalSend
+                               PROC
+   11 00000000 F040 00F0       ORR              R0, R0, #0xF0 ; Data is set
+   12 00000004 4901            LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1
+   13 00000006 6008            STR              R0,[R1]     ; Corresponding Out
+                                                            puts set high
+   14 00000008 4770            BX               LR          ; end
+   15 0000000A         
+   16 0000000A         ;*******************************************************
+                       ********
+   17 0000000A         ; End of the program  section
+   18 0000000A         ;*******************************************************
+                       ********
+   19 0000000A         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   20 0000000A 00 00           ALIGN
+   21 0000000C                 ENDP
+   22 0000000C                 END
+              400053FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\sigsend.d -o.\objects\sigsend.o -I"C:\Users\Furkan\Go
+ogle Drive\Ders Kitaplarý-Notlar\4. Sýnýf\EE447\LAB\Exp5\Q1\RTE" -IC:\Keil_v5\A
+RM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSIS\Inclu
+de --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --prede
+fine="TM4C123GH6PM SETA 1" --list=.\listings\sigsend.lst SigSend.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+SignalSend 00000000
+
+Symbol: SignalSend
+   Definitions
+      At line 10 in file SigSend.s
+   Uses
+      At line 9 in file SigSend.s
+Comment: SignalSend used once
+rutins 00000000
+
+Symbol: rutins
+   Definitions
+      At line 7 in file SigSend.s
+   Uses
+      None
+Comment: rutins unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 1 in file SigSend.s
+   Uses
+      At line 12 in file SigSend.s
+Comment: GPIO_PORTB_DATA used once
+1 symbol
+339 symbols in table

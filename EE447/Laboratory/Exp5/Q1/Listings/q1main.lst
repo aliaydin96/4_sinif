@@ -1,0 +1,224 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;*******************************************************
+                       ******** 
+    2 00000000         ; Program_Directives.s  
+    3 00000000         ; Copies the table from one location
+    4 00000000         ; to another memory location.           
+    5 00000000         ; Directives and Addressing modes are   
+    6 00000000         ; explained with this program.   
+    7 00000000         ;*******************************************************
+                       ******** 
+    8 00000000         ;*******************************************************
+                       ******** 
+    9 00000000         ; EQU Directives
+   10 00000000         ; These directives do not allocate memory
+   11 00000000         ;*******************************************************
+                       ********
+   12 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   13 00000000 00000010 
+                       OFFSET  EQU              0x10
+   14 00000000 20000480 
+                       FIRST   EQU              0x20000480
+   15 00000000 20000410 
+                       STORE   EQU              0x20000410
+   16 00000000         ;*******************************************************
+                       ********
+   17 00000000         ; Directives - This Data Section is part of the code
+   18 00000000         ; It is in the read only section  so values cannot be ch
+                       anged.
+   19 00000000         ;*******************************************************
+                       ********
+   20 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+   21 00000000                 AREA             sdata, DATA, READONLY
+   22 00000000                 THUMB
+   23 00000000 10      CTR1    DCB              0x10
+   24 00000001 43 6F 70 
+              79 69 6E 
+              67 20 74 
+              61 62 6C 
+              65 2E 2E 
+              2E       MSG     DCB              "Copying table..."
+   25 00000011 0D              DCB              0x0D
+   26 00000012 04              DCB              0x04
+   27 00000013         ;*******************************************************
+                       ********
+   28 00000013         ; Program section           
+   29 00000013         ;*******************************************************
+                       ********
+   30 00000013         ;LABEL  DIRECTIVE VALUE  COMMENT
+   31 00000013                 AREA             main, READONLY, CODE
+   32 00000000                 THUMB
+   33 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+   34 00000000                 EXTERN           InChar      ; Serial input Adde
+                                                            d
+   35 00000000                 EXTERN           SignalSend  ; GPIO signal send
+   36 00000000                 EXTERN           InitGPIO    ; GPIO initialize
+   37 00000000                 EXPORT           __main      ; Make available
+   38 00000000         
+   39 00000000         __main
+   40 00000000 F7FF FFFE       BL               InitGPIO    ; GPIO initialized
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   41 00000004 F04F 0001 
+                       Begin   MOV              R0, #0x0001 ; Set for Full Step
+                                                             config
+   42 00000008 F7FF FFFE       BL               SignalSend  ;
+   43 0000000C E7FA            B                Begin       ;
+   44 0000000E         ;*******************************************************
+                       ********
+   45 0000000E         ; End of the program  section
+   46 0000000E         ;*******************************************************
+                       ********
+   47 0000000E         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   48 0000000E 00 00           ALIGN
+   49 00000010                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\q1main.d -o.\objects\q1main.o -I"C:\Users\Furkan\Goog
+le Drive\Ders Kitaplarý-Notlar\4. Sýnýf\EE447\LAB\Exp5\Q1\RTE" -IC:\Keil_v5\ARM
+\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSIS\Include
+ --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --predefi
+ne="TM4C123GH6PM SETA 1" --list=.\listings\q1main.lst Q1Main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CTR1 00000000
+
+Symbol: CTR1
+   Definitions
+      At line 23 in file Q1Main.s
+   Uses
+      None
+Comment: CTR1 unused
+MSG 00000001
+
+Symbol: MSG
+   Definitions
+      At line 24 in file Q1Main.s
+   Uses
+      None
+Comment: MSG unused
+sdata 00000000
+
+Symbol: sdata
+   Definitions
+      At line 21 in file Q1Main.s
+   Uses
+      None
+Comment: sdata unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Begin 00000004
+
+Symbol: Begin
+   Definitions
+      At line 41 in file Q1Main.s
+   Uses
+      At line 43 in file Q1Main.s
+Comment: Begin used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 39 in file Q1Main.s
+   Uses
+      At line 37 in file Q1Main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 31 in file Q1Main.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+FIRST 20000480
+
+Symbol: FIRST
+   Definitions
+      At line 14 in file Q1Main.s
+   Uses
+      None
+Comment: FIRST unused
+OFFSET 00000010
+
+Symbol: OFFSET
+   Definitions
+      At line 13 in file Q1Main.s
+   Uses
+      None
+Comment: OFFSET unused
+STORE 20000410
+
+Symbol: STORE
+   Definitions
+      At line 15 in file Q1Main.s
+   Uses
+      None
+Comment: STORE unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 34 in file Q1Main.s
+   Uses
+      None
+Comment: InChar unused
+InitGPIO 00000000
+
+Symbol: InitGPIO
+   Definitions
+      At line 36 in file Q1Main.s
+   Uses
+      At line 40 in file Q1Main.s
+Comment: InitGPIO used once
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 33 in file Q1Main.s
+   Uses
+      None
+Comment: OutStr unused
+SignalSend 00000000
+
+Symbol: SignalSend
+   Definitions
+      At line 35 in file Q1Main.s
+   Uses
+      At line 42 in file Q1Main.s
+Comment: SignalSend used once
+4 symbols
+347 symbols in table

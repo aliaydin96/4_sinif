@@ -1,0 +1,256 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+    2 00000000         
+    3 00000000         
+    4 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+    5 00000000                 AREA             main, READONLY, CODE
+    6 00000000                 THUMB
+    7 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+    8 00000000                 EXTERN           InChar      ; Serial input Adde
+                                                            d
+    9 00000000                 EXTERN           Signal      ; GPIO signal send
+   10 00000000                 EXTERN           InitGPIO    ; GPIO initialize
+   11 00000000                 EXTERN           DELAY
+   12 00000000                 EXPORT           __main      ; Make available
+   13 00000000         
+   14 00000000         __main
+   15 00000000 F7FF FFFE       BL               InitGPIO    ; GPIO initialized
+   16 00000004         Begin
+   17 00000004 493A            LDR              R1,=GPIO_PORTB_DATA
+   18 00000006 680A            LDR              R2, [R1]
+   19 00000008 F002 020F       AND              R2, #0xF    ;AND r2 with f, to 
+                                                            determine pressed b
+                                                            utton  
+   20 0000000C 2A0F            CMP              R2, #0xF
+   21 0000000E D0F9            BEQ              Begin       ;if button is not p
+                                                            ressed, go to loop2
+                                                            
+   22 00000010 F247 1000 
+              F2C0 0002        MOV32            R0, #160000
+   23 00000018 F7FF FFFE       BL               DELAY       ;wait 100msec
+   24 0000001C 4934            LDR              R1,=GPIO_PORTB_DATA
+   25 0000001E 680B            LDR              R3, [R1]    ;
+   26 00000020 F003 030F       AND              R3, #0xF    ;AND r3 with f, to 
+                                                            determine pressed b
+                                                            utton 
+   27 00000024 429A            CMP              R2, R3      ;if they are equal,
+                                                             button is pressed
+   28 00000026 D1ED            BNE              Begin
+   29 00000028 2A0E            CMP              R2, #0xE
+   30 0000002A D002            BEQ              FORWARD
+   31 0000002C 2A0D            CMP              R2, #0xD
+   32 0000002E D02F            BEQ              REVERSE
+   33 00000030 E7E8            B                Begin
+   34 00000032         
+   35 00000032         FORWARD
+   36 00000032 F04F 0010       MOV              R0, #0x10   ; Set for Full Step
+                                                             config
+   37 00000036 F7FF FFFE       BL               Signal      ;
+   38 0000003A F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   39 00000042 F7FF FFFE       BL               DELAY
+   40 00000046 F240 0020 
+              F2C0 0000        MOV32            R0, #0x20
+   41 0000004E F7FF FFFE       BL               Signal      ;
+   42 00000052 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   43 0000005A F7FF FFFE       BL               DELAY
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   44 0000005E F240 0040 
+              F2C0 0000        MOV32            R0, #0x40
+   45 00000066 F7FF FFFE       BL               Signal      ;
+   46 0000006A F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   47 00000072 F7FF FFFE       BL               DELAY
+   48 00000076 F240 0080 
+              F2C0 0000        MOV32            R0, #0x80
+   49 0000007E F7FF FFFE       BL               Signal      ; 
+   50 00000082 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   51 0000008A F7FF FFFE       BL               DELAY
+   52 0000008E E7B9            B                Begin
+   53 00000090         
+   54 00000090         REVERSE
+   55 00000090 F04F 0080       MOV              R0, #0x80   ; Set for Full Step
+                                                             config
+   56 00000094 F7FF FFFE       BL               Signal      ;
+   57 00000098 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   58 000000A0 F7FF FFFE       BL               DELAY
+   59 000000A4 F240 0040 
+              F2C0 0000        MOV32            R0, #0x40
+   60 000000AC F7FF FFFE       BL               Signal      ;
+   61 000000B0 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   62 000000B8 F7FF FFFE       BL               DELAY
+   63 000000BC F240 0020 
+              F2C0 0000        MOV32            R0, #0x20
+   64 000000C4 F7FF FFFE       BL               Signal      ;
+   65 000000C8 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   66 000000D0 F7FF FFFE       BL               DELAY
+   67 000000D4 F240 0010 
+              F2C0 0000        MOV32            R0, #0x10
+   68 000000DC F7FF FFFE       BL               Signal      ; 
+   69 000000E0 F646 2000 
+              F2C0 0018        MOV32            R0, #1600000
+   70 000000E8 F7FF FFFE       BL               DELAY
+   71 000000EC E78A            B                Begin
+   72 000000EE         ;*******************************************************
+                       ********
+   73 000000EE         ; End of the program  section
+   74 000000EE         ;*******************************************************
+                       ********
+   75 000000EE         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   76 000000EE 00 00           ALIGN
+   77 000000F0                 END
+              400053FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\__main.lst __main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Begin 00000004
+
+Symbol: Begin
+   Definitions
+      At line 16 in file __main.s
+   Uses
+      At line 21 in file __main.s
+      At line 28 in file __main.s
+      At line 33 in file __main.s
+      At line 52 in file __main.s
+      At line 71 in file __main.s
+
+FORWARD 00000032
+
+Symbol: FORWARD
+   Definitions
+      At line 35 in file __main.s
+   Uses
+      At line 30 in file __main.s
+Comment: FORWARD used once
+REVERSE 00000090
+
+Symbol: REVERSE
+   Definitions
+      At line 54 in file __main.s
+   Uses
+      At line 32 in file __main.s
+Comment: REVERSE used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 14 in file __main.s
+   Uses
+      At line 12 in file __main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 5 in file __main.s
+   Uses
+      None
+Comment: main unused
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 1 in file __main.s
+   Uses
+      At line 17 in file __main.s
+      At line 24 in file __main.s
+
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+DELAY 00000000
+
+Symbol: DELAY
+   Definitions
+      At line 11 in file __main.s
+   Uses
+      At line 23 in file __main.s
+      At line 39 in file __main.s
+      At line 43 in file __main.s
+      At line 47 in file __main.s
+      At line 51 in file __main.s
+      At line 58 in file __main.s
+      At line 62 in file __main.s
+      At line 66 in file __main.s
+      At line 70 in file __main.s
+
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 8 in file __main.s
+   Uses
+      None
+Comment: InChar unused
+InitGPIO 00000000
+
+Symbol: InitGPIO
+   Definitions
+      At line 10 in file __main.s
+   Uses
+      At line 15 in file __main.s
+Comment: InitGPIO used once
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 7 in file __main.s
+   Uses
+      None
+Comment: OutStr unused
+Signal 00000000
+
+Symbol: Signal
+   Definitions
+      At line 9 in file __main.s
+   Uses
+      At line 37 in file __main.s
+      At line 41 in file __main.s
+      At line 45 in file __main.s
+      At line 49 in file __main.s
+      At line 56 in file __main.s
+      At line 60 in file __main.s
+      At line 64 in file __main.s
+      At line 68 in file __main.s
+
+5 symbols
+347 symbols in table
