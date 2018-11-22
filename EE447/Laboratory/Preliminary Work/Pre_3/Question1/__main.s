@@ -36,20 +36,24 @@ Begin
 			
 FORWARD			
 			LSL		R4, R4, #1
+			MOV		R0, R4
 			BL		Signal;
 			MOV32	R0, #1600000
 			BL 		DELAY
 			CMP		R4, #0x80
-			
+			BNE		Begin
+			MOV		R4, #0x08
 			B		Begin
 
 REVERSE
-			MOV 	R5, #0x80; Set for Full Step config
+			MOV 	R0, R5; Set for Full Step config
 			BL		Signal;
 			LSR		R5, R5, #1
 			MOV32	R0, #1600000
 			BL 		DELAY
-			CMP		R5, #0x08S
+			CMP		R5, #0x08
+			BNE		Begin
+			MOV		R5, #0x80
 			B		Begin
 ;***************************************************************
 ; End of the program  section
