@@ -6,12 +6,10 @@ GPIO_PORTB_DATA 	EQU 0x400053FC
 ;LABEL DIRECTIVE VALUE COMMENT
 			AREA rutins , CODE, READONLY
 			THUMB
-			EXPORT SysTick_Handler ;
-SysTick_Handler PROC 
+			EXPORT Signal ;
+Signal		PROC                    
 			LDR		R1,=GPIO_PORTB_DATA; Data address in R1
-			MOV		R0, R4
 			STR		R0,[R1];	Corresponding Outputs set high
-			LSL		R4, R4, #1					
 			BX LR; end
 
 ;***************************************************************
@@ -21,4 +19,3 @@ SysTick_Handler PROC
 			ALIGN
 			ENDP
 			END
-				

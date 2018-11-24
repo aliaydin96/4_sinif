@@ -16,52 +16,49 @@ ARM Macro Assembler    Page 1
     6 00000000         ;LABEL DIRECTIVE VALUE COMMENT
     7 00000000                 AREA             rutins , CODE, READONLY
     8 00000000                 THUMB
-    9 00000000                 EXPORT           SysTick_Handler ;
-   10 00000000         SysTick_Handler
-                               PROC
-   11 00000000 4902            LDR              R1,=GPIO_PORTB_DATA ; Data addr
+    9 00000000                 EXPORT           Signal      ;
+   10 00000000         Signal  PROC
+   11 00000000 4901            LDR              R1,=GPIO_PORTB_DATA ; Data addr
                                                             ess in R1
-   12 00000002 4620            MOV              R0, R4
-   13 00000004 6008            STR              R0,[R1]     ; Corresponding Out
+   12 00000002 6008            STR              R0,[R1]     ; Corresponding Out
                                                             puts set high
-   14 00000006 EA4F 0444       LSL              R4, R4, #1
-   15 0000000A 4770            BX               LR          ; end
-   16 0000000C         
-   17 0000000C         ;*******************************************************
+   13 00000004 4770            BX               LR          ; end
+   14 00000006         
+   15 00000006         ;*******************************************************
                        ********
-   18 0000000C         ; End of the program  section
-   19 0000000C         ;*******************************************************
+   16 00000006         ; End of the program  section
+   17 00000006         ;*******************************************************
                        ********
-   20 0000000C         ;LABEL      DIRECTIVE       VALUE                       
+   18 00000006         ;LABEL      DIRECTIVE       VALUE                       
                            COMMENT
-   21 0000000C                 ALIGN
-   22 0000000C                 ENDP
-   23 0000000C                 END
+   19 00000006 00 00           ALIGN
+   20 00000008                 ENDP
+   21 00000008                 END
               400053FC 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\signal.d -o.\objects\signal.o -I.\RTE\_Target_1 -IC:\
 Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
 SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
-" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\signal.lst signal.s
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\signal.lst Signal.s
 
 
 
 ARM Macro Assembler    Page 1 Alphabetic symbol ordering
 Relocatable symbols
 
-SysTick_Handler 00000000
+Signal 00000000
 
-Symbol: SysTick_Handler
+Symbol: Signal
    Definitions
-      At line 10 in file signal.s
+      At line 10 in file Signal.s
    Uses
-      At line 9 in file signal.s
-Comment: SysTick_Handler used once
+      At line 9 in file Signal.s
+Comment: Signal used once
 rutins 00000000
 
 Symbol: rutins
    Definitions
-      At line 7 in file signal.s
+      At line 7 in file Signal.s
    Uses
       None
 Comment: rutins unused
@@ -76,9 +73,9 @@ GPIO_PORTB_DATA 400053FC
 
 Symbol: GPIO_PORTB_DATA
    Definitions
-      At line 1 in file signal.s
+      At line 1 in file Signal.s
    Uses
-      At line 11 in file signal.s
+      At line 11 in file Signal.s
 Comment: GPIO_PORTB_DATA used once
 1 symbol
 339 symbols in table

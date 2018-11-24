@@ -403,19 +403,19 @@
               <FilePath>.\__main.s</FilePath>
             </File>
             <File>
-              <FileName>signal.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\signal.s</FilePath>
-            </File>
-            <File>
               <FileName>GPIO_Init.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\GPIO_Init.s</FilePath>
             </File>
             <File>
-              <FileName>Init_Timer.s</FileName>
+              <FileName>Signal.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\Init_Timer.s</FilePath>
+              <FilePath>.\Signal.s</FilePath>
+            </File>
+            <File>
+              <FileName>delay.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\delay.s</FilePath>
             </File>
           </Files>
         </Group>

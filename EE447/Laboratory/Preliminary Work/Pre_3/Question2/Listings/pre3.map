@@ -8,13 +8,13 @@ Section Cross References
     startup.o(HEAP) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers to startup.o(STACK) for StackMem
-    startup.o(RESET) refers to signal.o(rutins) for SysTick_Handler
     startup.o(RESET) refers to __main.o(main) for __main
     startup.o(.text) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(.text) refers to startup.o(HEAP) for HeapMem
     startup.o(.text) refers to startup.o(STACK) for StackMem
     __main.o(main) refers to gpio_init.o(rutins) for InitGPIO
-    __main.o(main) refers to init_timer.o(rutins) for Init_Timer
+    __main.o(main) refers to delay.o(subroutine) for DELAY
+    __main.o(main) refers to signal.o(rutins) for Signal
 
 
 ==============================================================================
@@ -42,20 +42,20 @@ Image Symbol Table
     ..\..\..\Supplementary Codes\OutStr.s    0x00000000   Number         0  outstr.o ABSOLUTE
     ..\..\..\Supplementary Codes\Startup.s   0x00000000   Number         0  startup.o ABSOLUTE
     GPIO_Init.s                              0x00000000   Number         0  gpio_init.o ABSOLUTE
-    Init_Timer.s                             0x00000000   Number         0  init_timer.o ABSOLUTE
+    Signal.s                                 0x00000000   Number         0  signal.o ABSOLUTE
     __main.s                                 0x00000000   Number         0  __main.o ABSOLUTE
     dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
-    signal.s                                 0x00000000   Number         0  signal.o ABSOLUTE
+    delay.s                                  0x00000000   Number         0  delay.o ABSOLUTE
     $v0                                      0x0000026c   Number         0  startup.o(RESET)
     .text                                    0x00000284   Section        0  heapauxi.o(.text)
-    main                                     0x0000028c   Section       40  __main.o(main)
+    main                                     0x0000028c   Section      128  __main.o(main)
     $v0                                      0x0000028c   Number         0  __main.o(main)
-    rutins                                   0x000002b4   Section       16  signal.o(rutins)
-    $v0                                      0x000002b4   Number         0  signal.o(rutins)
-    rutins                                   0x000002c4   Section       84  gpio_init.o(rutins)
-    $v0                                      0x000002c4   Number         0  gpio_init.o(rutins)
-    rutins                                   0x00000318   Section       32  init_timer.o(rutins)
-    $v0                                      0x00000318   Number         0  init_timer.o(rutins)
+    rutins                                   0x0000030c   Section       84  gpio_init.o(rutins)
+    $v0                                      0x0000030c   Number         0  gpio_init.o(rutins)
+    rutins                                   0x00000360   Section       12  signal.o(rutins)
+    $v0                                      0x00000360   Number         0  signal.o(rutins)
+    subroutine                               0x0000036c   Section        8  delay.o(subroutine)
+    $v0                                      0x0000036c   Number         0  delay.o(subroutine)
     STACK                                    0x20000000   Section     1024  startup.o(STACK)
     StackMem                                 0x20000000   Data           0  startup.o(STACK)
 
@@ -74,6 +74,7 @@ Image Symbol Table
     SVC_Handler                              0x0000027b   Thumb Code     2  startup.o(RESET)
     DebugMon_Handler                         0x0000027d   Thumb Code     2  startup.o(RESET)
     PendSV_Handler                           0x0000027f   Thumb Code     2  startup.o(RESET)
+    SysTick_Handler                          0x00000281   Thumb Code     2  startup.o(RESET)
     ADC0Seq0_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
     ADC0Seq1_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
     ADC0Seq2_Handler                         0x00000283   Thumb Code     0  startup.o(RESET)
@@ -192,9 +193,9 @@ Image Symbol Table
     __rt_heap_escrow$2region                 0x00000287   Thumb Code     2  heapauxi.o(.text)
     __rt_heap_expand$2region                 0x00000289   Thumb Code     2  heapauxi.o(.text)
     __main                                   0x0000028d   Thumb Code     0  __main.o(main)
-    SysTick_Handler                          0x000002b5   Thumb Code    12  signal.o(rutins)
-    InitGPIO                                 0x000002c5   Thumb Code    64  gpio_init.o(rutins)
-    Init_Timer                               0x00000319   Thumb Code    24  init_timer.o(rutins)
+    InitGPIO                                 0x0000030d   Thumb Code    64  gpio_init.o(rutins)
+    Signal                                   0x00000361   Thumb Code     8  signal.o(rutins)
+    DELAY                                    0x0000036d   Thumb Code     8  delay.o(subroutine)
 
 
 
@@ -204,29 +205,29 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000738, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000774, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000338, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000374, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000000   0x00000284   Code   RO           11  * RESET               startup.o
     0x00000284   0x00000284   0x00000006   Code   RO           35    .text               c_w.l(heapauxi.o)
     0x0000028a   0x0000028a   0x00000002   PAD
-    0x0000028c   0x0000028c   0x00000028   Code   RO           18    main                __main.o
-    0x000002b4   0x000002b4   0x00000010   Code   RO           21    rutins              signal.o
-    0x000002c4   0x000002c4   0x00000054   Code   RO           25    rutins              gpio_init.o
-    0x00000318   0x00000318   0x00000020   Code   RO           29    rutins              init_timer.o
+    0x0000028c   0x0000028c   0x00000080   Code   RO           18    main                __main.o
+    0x0000030c   0x0000030c   0x00000054   Code   RO           21    rutins              gpio_init.o
+    0x00000360   0x00000360   0x0000000c   Code   RO           25    rutins              signal.o
+    0x0000036c   0x0000036c   0x00000008   Code   RO           29    subroutine          delay.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000338, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x00000374, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x00000338   0x00000400   Data   RW            9    STACK               startup.o
+    0x20000000   0x00000374   0x00000400   Data   RW            9    STACK               startup.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x00000738, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x00000774, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -238,15 +239,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-        40          2          0          0          0        236   __main.o
+       128          4          0          0          0        264   __main.o
+         8          0          0          0          0        356   delay.o
         84         22          0          0          0        392   gpio_init.o
          0          0          0          0          0         32   inchar.o
-        32         10          0          0          0        376   init_timer.o
-        16          4          0          0          0        372   signal.o
+        12          6          0          0          0        364   signal.o
        644        620          0       1024          0        820   startup.o
 
     ----------------------------------------------------------------------
-       816        658          0       1024          0       2228   Object Totals
+       876        652          0       1024          0       2228   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -276,15 +277,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       824        658          0       1024          0       2080   Grand Totals
-       824        658          0       1024          0       2080   ELF Image Totals
-       824        658          0       1024          0          0   ROM Totals
+       884        652          0       1024          0       2080   Grand Totals
+       884        652          0       1024          0       2080   ELF Image Totals
+       884        652          0       1024          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                  824 (   0.80kB)
+    Total RO  Size (Code + RO Data)                  884 (   0.86kB)
     Total RW  Size (RW Data + ZI Data)              1024 (   1.00kB)
-    Total ROM Size (Code + RO Data + RW Data)       1848 (   1.80kB)
+    Total ROM Size (Code + RO Data + RW Data)       1908 (   1.86kB)
 
 ==============================================================================
 

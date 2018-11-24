@@ -1,1 +1,1 @@
-.\objects\signal.o: Signal.s
+.\objects\signal.o: signal.s

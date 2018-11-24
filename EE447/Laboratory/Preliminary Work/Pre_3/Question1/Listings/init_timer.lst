@@ -1,0 +1,74 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 E000E010 
+                       SYSCTRL EQU              0xE000E010
+    2 00000000                 AREA             rutins , CODE, READONLY
+    3 00000000                 THUMB
+    4 00000000                 EXPORT           Init_Timer  ;
+    5 00000000         
+    6 00000000         Init_Timer
+                               PROC
+    7 00000000 4805            LDR              R0, =SYSCTRL
+    8 00000002 F04F 0100       MOV              R1, #0
+    9 00000006 6001            STR              R1, [R0]
+   10 00000008 4904            LDR              R1, =600000
+   11 0000000A 6041            STR              R1, [R0, #4]
+   12 0000000C 6081            STR              R1, [R0, #8]
+   13 0000000E F04F 0103       MOV              R1, #3
+   14 00000012 6001            STR              R1, [R0]
+   15 00000014 4770            BX               LR
+   16 00000016         
+   17 00000016 00 00           ALIGN
+   18 00000018                 ENDP
+   19 00000018                 END
+              E000E010 
+              000927C0 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\init_timer.d -o.\objects\init_timer.o -I.\RTE\_Target
+_1 -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v
+5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION 
+SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\init_timer.lst In
+it_Timer.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+Init_Timer 00000000
+
+Symbol: Init_Timer
+   Definitions
+      At line 6 in file Init_Timer.s
+   Uses
+      At line 4 in file Init_Timer.s
+Comment: Init_Timer used once
+rutins 00000000
+
+Symbol: rutins
+   Definitions
+      At line 2 in file Init_Timer.s
+   Uses
+      None
+Comment: rutins unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+SYSCTRL E000E010
+
+Symbol: SYSCTRL
+   Definitions
+      At line 1 in file Init_Timer.s
+   Uses
+      At line 7 in file Init_Timer.s
+Comment: SYSCTRL used once
+1 symbol
+339 symbols in table
