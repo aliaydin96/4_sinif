@@ -11,7 +11,8 @@ CHECKINPUT  PROC
 			MOV		R2,#0; R2 holds the information cw or ccw
 			MOV		R3, #1;
 			MOV32	R7, #1000000
-Check		
+			MOV		R4, #0
+Check		MOV		R2, R4
 			LDR 	R0,[R1];Checks for any input
 			LSR		R0,#4;
 			LSRS	R0,#1;
@@ -83,6 +84,7 @@ CW			AND		R3,R3,#15;
 			PUSH	{LR}
 			BL		delay
 			POP		{LR}
+			MOV		R4, R2
 			B		Check;	
 			
 CCW			AND		R3,R3,#15;
@@ -96,6 +98,7 @@ CCW			AND		R3,R3,#15;
 			PUSH	{LR}
 			BL		delay
 			POP		{LR}
+			MOV		R4, R2
 			B		Check;			
 SPEEDUP		
 			MOV32	R7, #160000
