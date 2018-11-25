@@ -4,7 +4,7 @@ GPIO_PORTB_AFSEL	EQU 0x40005420
 GPIO_PORTB_DEN 		EQU 0x4000551C
 GPIO_PORTB_PUR 		EQU 0x40005510
 GPIO_PORTB_PDR 		EQU 0x40005514	
-IOB 				EQU 0xF0
+IOB 				EQU 0x0F
 SYSCTL_RCGCGPIO 	EQU 0x400FE608
 ;***************************************************************
 ; Program section					      
@@ -37,13 +37,15 @@ InitGPIO	PROC
 			STR R0 , [ R1 ]
 			LDR R1 , =GPIO_PORTB_PUR
 			LDR R0 , [ R1 ]
-			ORR R0 , #0x0F
+			ORR R0 , #0xF0
 			STR R0 , [ R1 ]
 			
 			BX LR; end
 
+;***************************************************************
+; End of the program  section
+;***************************************************************
+;LABEL      DIRECTIVE       VALUE                           COMMENT
 			ALIGN
 			ENDP
 			END
-				
-				

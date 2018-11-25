@@ -1,0 +1,331 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+    2 00000000 4000541C 
+                       GPIO_PORTB_ICR
+                               EQU              0x4000541C
+    3 00000000 40005414 
+                       GPIO_PORTB_RIS
+                               EQU              0x40005414
+    4 00000000                 AREA             rutins , CODE, READONLY
+    5 00000000                 THUMB
+    6 00000000                 EXPORT           CHECKINPUT  ;GPIOPortB_Handler 
+                                                            ;
+    7 00000000                 EXTERN           SignalSend  ; GPIO signal send
+    8 00000000                 EXTERN           delay       ;
+    9 00000000         CHECKINPUT
+                               PROC
+   10 00000000 493D            LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1
+   11 00000002 F04F 0200       MOV              R2,#0       ; R2 holds the info
+                                                            rmation cw or ccw
+   12 00000006 F04F 0301       MOV              R3, #1      ;
+   13 0000000A F244 2740 
+              F2C0 070F        MOV32            R7, #1000000
+   14 00000012         Check
+   15 00000012 6808            LDR              R0,[R1]     ;Checks for any inp
+                                                            ut
+   16 00000014 EA4F 1010       LSR              R0,#4       ;
+   17 00000018 0840            LSRS             R0,#1       ;
+   18 0000001A D30E            BCC              Delay100
+   19 0000001C 0840            LSRS             R0,#1       ;
+   20 0000001E D30C            BCC              Delay100
+   21 00000020 0840            LSRS             R0,#1       ;
+   22 00000022 D30A            BCC              Delay100
+   23 00000024 0840            LSRS             R0,#1       ;
+   24 00000026 D308            BCC              Delay100
+   25 00000028 2A01            CMP              R2, #1
+   26 0000002A D036            BEQ              CW
+   27 0000002C 2A02            CMP              R2, #2
+   28 0000002E D046            BEQ              CCW
+   29 00000030 2A03            CMP              R2, #3
+   30 00000032 D056            BEQ              SPEEDUP
+   31 00000034 2A04            CMP              R2, #4
+   32 00000036 D059            BEQ              SPEEDDOWN
+   33 00000038 E7EB            B                Check
+   34 0000003A F247 1000 
+              F2C0 0002 
+                       Delay100
+                               MOV32            R0,#160000  ;If any input is de
+                                                            tected
+   35 00000042 B500            PUSH{LR}
+   36 00000044 F7FF FFFE       BL               delay
+   37 00000048 F85D EB04       POP{LR}
+   38 0000004C 6808            LDR              R0,[R1]     ; Check Again
+   39 0000004E EA4F 1010       LSR              R0,#4       ;
+   40 00000052 0840            LSRS             R0,#1       ;
+   41 00000054 BF38 2201       MOVCC            R2,#1       ; 1 is the cw direc
+                                                            tion PB4 pressed
+   42 00000058 D30C            BCC              Released    ; If input is detec
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                                                            ted again wait for 
+                                                            relase
+   43 0000005A 0840            LSRS             R0,#1       ;
+   44 0000005C BF38 2202       MOVCC            R2,#2       ; 2 is the ccw dire
+                                                            ction PB5 pressed
+   45 00000060 D308            BCC              Released
+   46 00000062 0840            LSRS             R0,#1       ;
+   47 00000064 BF38 2203       MOVCC            R2,#3       ; 3 is the speed-up
+                                                             direction PB6 pres
+                                                            sed
+   48 00000068 D304            BCC              Released    ; If input is detec
+                                                            ted again wait for 
+                                                            relase
+   49 0000006A 0840            LSRS             R0,#1       ;
+   50 0000006C BF38 2204       MOVCC            R2,#4       ; 4 is the speed-do
+                                                            wn direction PB7 pr
+                                                            essed
+   51 00000070 D300            BCC              Released
+   52 00000072 4770            BX               LR          ; if no signal
+   53 00000074         
+   54 00000074         
+   55 00000074 6808    Released
+                               LDR              R0,[R1]     ; It checks for if 
+                                                            the switch is open 
+                                                            again
+   56 00000076 EA4F 1010       LSR              R0,#4       ;
+   57 0000007A 0840            LSRS             R0,#1       ;
+   58 0000007C D3FA            BCC              Released    ; If it is not open
+                                                            
+   59 0000007E 0840            LSRS             R0,#1       ;
+   60 00000080 D3F8            BCC              Released    ;
+   61 00000082 0840            LSRS             R0,#1       ;
+   62 00000084 D3F6            BCC              Released    ; If it is not open
+                                                            
+   63 00000086 0840            LSRS             R0,#1       ;
+   64 00000088 D3F4            BCC              Released    ;
+   65 0000008A 2A01            CMP              R2, #1
+   66 0000008C D005            BEQ              CW
+   67 0000008E 2A02            CMP              R2, #2
+   68 00000090 D015            BEQ              CCW
+   69 00000092 2A03            CMP              R2, #3
+   70 00000094 D025            BEQ              SPEEDUP
+   71 00000096 2A04            CMP              R2, #4
+   72 00000098 D028            BEQ              SPEEDDOWN
+   73 0000009A         
+   74 0000009A         
+   75 0000009A F003 030F 
+                       CW      AND              R3,R3,#15   ;
+   76 0000009E 2B01            CMP              R3,#1
+   77 000000A0 BF0C 2308       MOVEQ            R3,#8       ;
+   78 000000A4 085B            LSRNE            R3,R3,#1    ;
+   79 000000A6 461E            MOV              R6,R3       ;
+   80 000000A8 F7FF FFFE       BL               SignalSend
+   81 000000AC F04F 0000       MOV              R0, #0
+   82 000000B0 4438            ADD              R0, R7
+   83 000000B2 B500            PUSH             {LR}
+   84 000000B4 F7FF FFFE       BL               delay
+   85 000000B8 F85D EB04       POP              {LR}
+   86 000000BC E7A9            B                Check       ; 
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   87 000000BE         
+   88 000000BE F003 030F 
+                       CCW     AND              R3,R3,#15   ;
+   89 000000C2 2B08            CMP              R3,#8
+   90 000000C4 BF0C 2301       MOVEQ            R3,#1       ;
+   91 000000C8 005B            LSLNE            R3,R3,#1    ;
+   92 000000CA 461E            MOV              R6,R3       ;
+   93 000000CC F7FF FFFE       BL               SignalSend  ;
+   94 000000D0 F04F 0000       MOV              R0, #0
+   95 000000D4 4438            ADD              R0, R7
+   96 000000D6 B500            PUSH             {LR}
+   97 000000D8 F7FF FFFE       BL               delay
+   98 000000DC F85D EB04       POP              {LR}
+   99 000000E0 E797            B                Check       ;   
+  100 000000E2         SPEEDUP
+  101 000000E2 F247 1700 
+              F2C0 0702        MOV32            R7, #160000
+  102 000000EA E792            B                Check
+  103 000000EC         SPEEDDOWN
+  104 000000EC F646 2700 
+              F2C0 0718        MOV32            R7, #1600000
+  105 000000F4 E78D            B                Check
+  106 000000F6 4770            BX               LR          ; end
+  107 000000F8         
+  108 000000F8                 ALIGN
+  109 000000F8                 ENDP
+  110 000000F8                 END
+              400053FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\inputcheck.d -o.\objects\inputcheck.o -I.\RTE\_Target
+_1 -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v
+5\ARM\CMSIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION 
+SETA 526" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\inputcheck.lst In
+putCheck.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CCW 000000BE
+
+Symbol: CCW
+   Definitions
+      At line 88 in file InputCheck.s
+   Uses
+      At line 28 in file InputCheck.s
+      At line 68 in file InputCheck.s
+
+CHECKINPUT 00000000
+
+Symbol: CHECKINPUT
+   Definitions
+      At line 9 in file InputCheck.s
+   Uses
+      At line 6 in file InputCheck.s
+Comment: CHECKINPUT used once
+CW 0000009A
+
+Symbol: CW
+   Definitions
+      At line 75 in file InputCheck.s
+   Uses
+      At line 26 in file InputCheck.s
+      At line 66 in file InputCheck.s
+
+Check 00000012
+
+Symbol: Check
+   Definitions
+      At line 14 in file InputCheck.s
+   Uses
+      At line 33 in file InputCheck.s
+      At line 86 in file InputCheck.s
+      At line 99 in file InputCheck.s
+      At line 102 in file InputCheck.s
+      At line 105 in file InputCheck.s
+
+Delay100 0000003A
+
+Symbol: Delay100
+   Definitions
+      At line 34 in file InputCheck.s
+   Uses
+      At line 18 in file InputCheck.s
+      At line 20 in file InputCheck.s
+      At line 22 in file InputCheck.s
+      At line 24 in file InputCheck.s
+
+Released 00000074
+
+Symbol: Released
+   Definitions
+      At line 55 in file InputCheck.s
+   Uses
+      At line 42 in file InputCheck.s
+      At line 45 in file InputCheck.s
+      At line 48 in file InputCheck.s
+      At line 51 in file InputCheck.s
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 58 in file InputCheck.s
+      At line 60 in file InputCheck.s
+      At line 62 in file InputCheck.s
+      At line 64 in file InputCheck.s
+
+SPEEDDOWN 000000EC
+
+Symbol: SPEEDDOWN
+   Definitions
+      At line 103 in file InputCheck.s
+   Uses
+      At line 32 in file InputCheck.s
+      At line 72 in file InputCheck.s
+
+SPEEDUP 000000E2
+
+Symbol: SPEEDUP
+   Definitions
+      At line 100 in file InputCheck.s
+   Uses
+      At line 30 in file InputCheck.s
+      At line 70 in file InputCheck.s
+
+rutins 00000000
+
+Symbol: rutins
+   Definitions
+      At line 4 in file InputCheck.s
+   Uses
+      None
+Comment: rutins unused
+9 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 1 in file InputCheck.s
+   Uses
+      At line 10 in file InputCheck.s
+Comment: GPIO_PORTB_DATA used once
+GPIO_PORTB_ICR 4000541C
+
+Symbol: GPIO_PORTB_ICR
+   Definitions
+      At line 2 in file InputCheck.s
+   Uses
+      None
+Comment: GPIO_PORTB_ICR unused
+GPIO_PORTB_RIS 40005414
+
+Symbol: GPIO_PORTB_RIS
+   Definitions
+      At line 3 in file InputCheck.s
+   Uses
+      None
+Comment: GPIO_PORTB_RIS unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+SignalSend 00000000
+
+Symbol: SignalSend
+   Definitions
+      At line 7 in file InputCheck.s
+   Uses
+      At line 80 in file InputCheck.s
+      At line 93 in file InputCheck.s
+
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 8 in file InputCheck.s
+   Uses
+      At line 36 in file InputCheck.s
+      At line 84 in file InputCheck.s
+      At line 97 in file InputCheck.s
+
+2 symbols
+350 symbols in table

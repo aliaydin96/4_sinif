@@ -385,17 +385,17 @@
             <File>
               <FileName>InChar.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\Supplementary Codes\InChar.s</FilePath>
+              <FilePath>.\InChar.s</FilePath>
             </File>
             <File>
               <FileName>OutStr.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\Supplementary Codes\OutStr.s</FilePath>
+              <FilePath>.\OutStr.s</FilePath>
             </File>
             <File>
               <FileName>Startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>..\..\..\Supplementary Codes\Startup.s</FilePath>
+              <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
               <FileName>__main.s</FileName>
@@ -403,19 +403,24 @@
               <FilePath>.\__main.s</FilePath>
             </File>
             <File>
+              <FileName>InputCheck.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\InputCheck.s</FilePath>
+            </File>
+            <File>
               <FileName>GPIO_Init.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\GPIO_Init.s</FilePath>
             </File>
             <File>
-              <FileName>Signal.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>.\Signal.s</FilePath>
-            </File>
-            <File>
               <FileName>delay.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\delay.s</FilePath>
+            </File>
+            <File>
+              <FileName>signal.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\signal.s</FilePath>
             </File>
           </Files>
         </Group>
