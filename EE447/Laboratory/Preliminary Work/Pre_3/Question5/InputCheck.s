@@ -71,7 +71,6 @@ Released	LDR 	R0,[R1];	It checks for if the switch is open again
 			BEQ		SPEEDUP
 			CMP		R2, #4
 			BEQ		SPEEDDOWN	
-
 		
 CW			AND		R3,R3,#15;
 			CMP		R3,#1

@@ -1,5 +1,4 @@
 GPIO_PORTB_DATA 	EQU 0x400053FC
-
 			AREA rutins , CODE, READONLY
 			THUMB
 			EXPORT CheckInput ;
@@ -26,9 +25,7 @@ Delay100	MOV32	R0,#160000;If any input is detected
 			LSRS	R0,#1;
 			MOVCC	R2,#2; 2 is the ccw direction PB5 pressed
 			BCC		Released
-			BX LR; if no signal
-
-						
+			BX LR; if no signal					
 Released	LDR 	R0,[R1];	It checks for if the switch is open again
 			LSR		R0,#4;
 			LSRS	R0,#1;
@@ -36,7 +33,6 @@ Released	LDR 	R0,[R1];	It checks for if the switch is open again
 			LSRS	R0,#1;
 			BCC		Released;
 			BX LR; end
-
 			ALIGN
 			ENDP
 			END
