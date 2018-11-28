@@ -1,0 +1,239 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+    2 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+    3 00000000                 AREA             main, READONLY, CODE
+    4 00000000                 THUMB
+    5 00000000                 EXTERN           OutStr      ; Reference externa
+                                                            l subroutine 
+    6 00000000                 EXTERN           InChar      ; Serial input Adde
+                                                            d
+    7 00000000                 EXTERN           SignalSend  ; GPIO signal send
+    8 00000000                 EXTERN           InitGPIO    ; GPIO initialize
+    9 00000000                 EXTERN           delay       ; Delay is availabl
+                                                            e
+   10 00000000                 EXTERN           CheckInput  ; Input Check is av
+                                                            ailable
+   11 00000000                 EXTERN           Init_Timer
+   12 00000000                 EXPORT           __main      ; Make available
+   13 00000000         
+   14 00000000         __main
+   15 00000000 F7FF FFFE       BL               InitGPIO    ; GPIO initialized
+   16 00000004 F04F 0301       MOV              R3, #1      ;
+   17 00000008 F04F 0600       MOV              R6, #0      ;
+   18 0000000C F7FF FFFE       BL               SignalSend  ;
+   19 00000010         
+   20 00000010 F7FF FFFE       BL               Init_Timer
+   21 00000014         
+   22 00000014         
+   23 00000014 4915    Check   LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1   
+   24 00000016 F04F 0200       MOV              R2,#0       ; R2 holds the info
+                                                            rmation cw or ccw
+   25 0000001A 6808            LDR              R0,[R1]     ;Checks for any inp
+                                                            ut
+   26 0000001C EA4F 1010       LSR              R0,#4       ;
+   27 00000020 0840            LSRS             R0,#1       ;
+   28 00000022 D302            BCC              Delay100
+   29 00000024 0840            LSRS             R0,#1       ;
+   30 00000026 D300            BCC              Delay100
+   31 00000028 E7F4            B                Check
+   32 0000002A F247 1000 
+              F2C0 0002 
+                       Delay100
+                               MOV32            R0,#160000  ;If any input is de
+                                                            tected
+   33 00000032 B500            PUSH{LR}
+   34 00000034 F7FF FFFE       BL               delay
+   35 00000038 F85D EB04       POP{LR}
+   36 0000003C 6808            LDR              R0,[R1]     ; Check Again
+   37 0000003E EA4F 1010       LSR              R0,#4       ;
+   38 00000042 0840            LSRS             R0,#1       ;
+   39 00000044 BF38 2201       MOVCC            R2,#1       ; 1 is the cw direc
+                                                            tion PB4 pressed
+   40 00000048 D304            BCC              Released    ; If input is detec
+                                                            ted again wait for 
+                                                            relase
+   41 0000004A 0840            LSRS             R0,#1       ;
+   42 0000004C BF38 2202       MOVCC            R2,#2       ; 2 is the ccw dire
+                                                            ction PB5 pressed
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   43 00000050 D300            BCC              Released
+   44 00000052 E7DF            B                Check
+   45 00000054         
+   46 00000054         
+   47 00000054 6808    Released
+                               LDR              R0,[R1]     ; It checks for if 
+                                                            the switch is open 
+                                                            again
+   48 00000056 EA4F 1010       LSR              R0,#4       ;
+   49 0000005A 0840            LSRS             R0,#1       ;
+   50 0000005C D3FA            BCC              Released    ; If it is not open
+                                                            
+   51 0000005E 0840            LSRS             R0,#1       ;
+   52 00000060 D3F8            BCC              Released    ;
+   53 00000062 E7FF            B                CHANGE
+   54 00000064         
+   55 00000064 F04F 0400 
+                       CHANGE  MOV              R4, #0
+   56 00000068 4414            ADD              R4, R2
+   57 0000006A E7D3            B                Check
+   58 0000006C                 ALIGN
+   59 0000006C                 END
+              400053FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\__main.lst __main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+CHANGE 00000064
+
+Symbol: CHANGE
+   Definitions
+      At line 55 in file __main.s
+   Uses
+      At line 53 in file __main.s
+Comment: CHANGE used once
+Check 00000014
+
+Symbol: Check
+   Definitions
+      At line 23 in file __main.s
+   Uses
+      At line 31 in file __main.s
+      At line 44 in file __main.s
+      At line 57 in file __main.s
+
+Delay100 0000002A
+
+Symbol: Delay100
+   Definitions
+      At line 32 in file __main.s
+   Uses
+      At line 28 in file __main.s
+      At line 30 in file __main.s
+
+Released 00000054
+
+Symbol: Released
+   Definitions
+      At line 47 in file __main.s
+   Uses
+      At line 40 in file __main.s
+      At line 43 in file __main.s
+      At line 50 in file __main.s
+      At line 52 in file __main.s
+
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 14 in file __main.s
+   Uses
+      At line 12 in file __main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 3 in file __main.s
+   Uses
+      None
+Comment: main unused
+6 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 1 in file __main.s
+   Uses
+      At line 23 in file __main.s
+Comment: GPIO_PORTB_DATA used once
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+CheckInput 00000000
+
+Symbol: CheckInput
+   Definitions
+      At line 10 in file __main.s
+   Uses
+      None
+Comment: CheckInput unused
+InChar 00000000
+
+Symbol: InChar
+   Definitions
+      At line 6 in file __main.s
+   Uses
+      None
+Comment: InChar unused
+InitGPIO 00000000
+
+Symbol: InitGPIO
+   Definitions
+      At line 8 in file __main.s
+   Uses
+      At line 15 in file __main.s
+Comment: InitGPIO used once
+Init_Timer 00000000
+
+Symbol: Init_Timer
+   Definitions
+      At line 11 in file __main.s
+   Uses
+      At line 20 in file __main.s
+Comment: Init_Timer used once
+OutStr 00000000
+
+Symbol: OutStr
+   Definitions
+      At line 5 in file __main.s
+   Uses
+      None
+Comment: OutStr unused
+SignalSend 00000000
+
+Symbol: SignalSend
+   Definitions
+      At line 7 in file __main.s
+   Uses
+      At line 18 in file __main.s
+Comment: SignalSend used once
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 9 in file __main.s
+   Uses
+      At line 34 in file __main.s
+Comment: delay used once
+7 symbols
+350 symbols in table

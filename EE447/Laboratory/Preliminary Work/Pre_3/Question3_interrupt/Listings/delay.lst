@@ -1,0 +1,66 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000                 AREA             rutins , CODE, READONLY
+    3 00000000                 THUMB
+    4 00000000                 EXPORT           delay       ;
+    5 00000000         delay   PROC
+    6 00000000         
+    7 00000000 1E40    GoBack  SUBS             R0,R0,#1    ;
+    8 00000002 D000            BEQ              End_Delay
+    9 00000004 E7FC            B                GoBack
+   10 00000006 4770    End_Delay
+                               BX               LR          ; end
+   11 00000008         
+   12 00000008                 ALIGN
+   13 00000008                 ENDP
+   14 00000008                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\delay.d -o.\objects\delay.o -I.\RTE\_Target_1 -IC:\Ke
+il_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CMSI
+S\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526" 
+--predefine="TM4C123GH6PM SETA 1" --list=.\listings\delay.lst delay.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+End_Delay 00000006
+
+Symbol: End_Delay
+   Definitions
+      At line 10 in file delay.s
+   Uses
+      At line 8 in file delay.s
+Comment: End_Delay used once
+GoBack 00000000
+
+Symbol: GoBack
+   Definitions
+      At line 7 in file delay.s
+   Uses
+      At line 9 in file delay.s
+Comment: GoBack used once
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 5 in file delay.s
+   Uses
+      At line 4 in file delay.s
+Comment: delay used once
+rutins 00000000
+
+Symbol: rutins
+   Definitions
+      At line 2 in file delay.s
+   Uses
+      None
+Comment: rutins unused
+4 symbols
+338 symbols in table
