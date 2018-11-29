@@ -7,27 +7,30 @@ Section Cross References
     __main.o(main) refers to gpio.o(rutins) for InitGPIO
     __main.o(main) refers to signal.o(rutins) for SignalSend
     __main.o(main) refers to init_timer.o(rutins) for Init_Timer
-    __main.o(main) refers to delay.o(rutins) for delay
-    inputcheck.o(rutins) refers to signal.o(rutins) for SignalSend
+    inputcheck.o(rutins) refers to delay.o(rutins) for delay
+    inputcheck.o(rutins) refers to init_timer.o(rutins) for Init_Timer
     startup.o(STACK) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(HEAP) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers to startup.o(STACK) for StackMem
-    startup.o(RESET) refers to inputcheck.o(rutins) for SysTick_Handler
+    startup.o(RESET) refers to systick.o(rutins) for SysTick_Handler
     startup.o(RESET) refers to __main.o(main) for __main
     startup.o(.text) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(.text) refers to startup.o(HEAP) for HeapMem
     startup.o(.text) refers to startup.o(STACK) for StackMem
+    systick.o(rutins) refers to delay.o(rutins) for delay
+    systick.o(rutins) refers to signal.o(rutins) for SignalSend
 
 
 ==============================================================================
 
 Removing Unused input sections from the image.
 
+    Removing inputcheck.o(rutins), (96 bytes).
     Removing startup.o(HEAP), (0 bytes).
     Removing startup.o(.text), (48 bytes).
 
-2 unused section(s) (total 48 bytes) removed from the image.
+3 unused section(s) (total 144 bytes) removed from the image.
 
 ==============================================================================
 
@@ -47,20 +50,21 @@ Image Symbol Table
     gpio.s                                   0x00000000   Number         0  gpio.o ABSOLUTE
     inputcheck.s                             0x00000000   Number         0  inputcheck.o ABSOLUTE
     signal.s                                 0x00000000   Number         0  signal.o ABSOLUTE
+    systick.s                                0x00000000   Number         0  systick.o ABSOLUTE
     $v0                                      0x0000026c   Number         0  startup.o(RESET)
     .text                                    0x00000284   Section        0  heapauxi.o(.text)
-    main                                     0x0000028c   Section      112  __main.o(main)
+    main                                     0x0000028c   Section       32  __main.o(main)
     $v0                                      0x0000028c   Number         0  __main.o(main)
-    rutins                                   0x000002fc   Section       72  inputcheck.o(rutins)
-    $v0                                      0x000002fc   Number         0  inputcheck.o(rutins)
-    rutins                                   0x00000344   Section        8  delay.o(rutins)
-    $v0                                      0x00000344   Number         0  delay.o(rutins)
-    rutins                                   0x0000034c   Section       12  signal.o(rutins)
-    $v0                                      0x0000034c   Number         0  signal.o(rutins)
-    rutins                                   0x00000358   Section       84  gpio.o(rutins)
-    $v0                                      0x00000358   Number         0  gpio.o(rutins)
-    rutins                                   0x000003ac   Section       32  init_timer.o(rutins)
-    $v0                                      0x000003ac   Number         0  init_timer.o(rutins)
+    rutins                                   0x000002ac   Section        8  delay.o(rutins)
+    $v0                                      0x000002ac   Number         0  delay.o(rutins)
+    rutins                                   0x000002b4   Section       12  signal.o(rutins)
+    $v0                                      0x000002b4   Number         0  signal.o(rutins)
+    rutins                                   0x000002c0   Section       84  gpio.o(rutins)
+    $v0                                      0x000002c0   Number         0  gpio.o(rutins)
+    rutins                                   0x00000314   Section       32  init_timer.o(rutins)
+    $v0                                      0x00000314   Number         0  init_timer.o(rutins)
+    rutins                                   0x00000334   Section      136  systick.o(rutins)
+    $v0                                      0x00000334   Number         0  systick.o(rutins)
     STACK                                    0x20000000   Section     1024  startup.o(STACK)
     StackMem                                 0x20000000   Data           0  startup.o(STACK)
 
@@ -197,11 +201,11 @@ Image Symbol Table
     __rt_heap_escrow$2region                 0x00000287   Thumb Code     2  heapauxi.o(.text)
     __rt_heap_expand$2region                 0x00000289   Thumb Code     2  heapauxi.o(.text)
     __main                                   0x0000028d   Thumb Code     0  __main.o(main)
-    SysTick_Handler                          0x000002fd   Thumb Code    72  inputcheck.o(rutins)
-    delay                                    0x00000345   Thumb Code     8  delay.o(rutins)
-    SignalSend                               0x0000034d   Thumb Code     8  signal.o(rutins)
-    InitGPIO                                 0x00000359   Thumb Code    64  gpio.o(rutins)
-    Init_Timer                               0x000003ad   Thumb Code    24  init_timer.o(rutins)
+    delay                                    0x000002ad   Thumb Code     8  delay.o(rutins)
+    SignalSend                               0x000002b5   Thumb Code     8  signal.o(rutins)
+    InitGPIO                                 0x000002c1   Thumb Code    64  gpio.o(rutins)
+    Init_Timer                               0x00000315   Thumb Code    24  init_timer.o(rutins)
+    SysTick_Handler                          0x00000335   Thumb Code   132  systick.o(rutins)
 
 
 
@@ -211,31 +215,31 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000007cc, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000007bc, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000003cc, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000003bc, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000000   0x00000284   Code   RO           24  * RESET               startup.o
-    0x00000284   0x00000284   0x00000006   Code   RO           37    .text               c_w.l(heapauxi.o)
+    0x00000284   0x00000284   0x00000006   Code   RO           41    .text               c_w.l(heapauxi.o)
     0x0000028a   0x0000028a   0x00000002   PAD
-    0x0000028c   0x0000028c   0x00000070   Code   RO            1    main                __main.o
-    0x000002fc   0x000002fc   0x00000048   Code   RO            6    rutins              inputcheck.o
-    0x00000344   0x00000344   0x00000008   Code   RO           10    rutins              delay.o
-    0x0000034c   0x0000034c   0x0000000c   Code   RO           14    rutins              signal.o
-    0x00000358   0x00000358   0x00000054   Code   RO           18    rutins              gpio.o
-    0x000003ac   0x000003ac   0x00000020   Code   RO           31    rutins              init_timer.o
+    0x0000028c   0x0000028c   0x00000020   Code   RO            1    main                __main.o
+    0x000002ac   0x000002ac   0x00000008   Code   RO           10    rutins              delay.o
+    0x000002b4   0x000002b4   0x0000000c   Code   RO           14    rutins              signal.o
+    0x000002c0   0x000002c0   0x00000054   Code   RO           18    rutins              gpio.o
+    0x00000314   0x00000314   0x00000020   Code   RO           31    rutins              init_timer.o
+    0x00000334   0x00000334   0x00000088   Code   RO           35    rutins              systick.o
 
 
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000003cc, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000003bc, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x000003cc   0x00000400   Data   RW           22    STACK               startup.o
+    0x20000000   0x000003bc   0x00000400   Data   RW           22    STACK               startup.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x000007cc, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x000007bc, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -247,16 +251,16 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-       112          4          0          0          0        304   __main.o
+        32          2          0          0          0        276   __main.o
          8          0          0          0          0        372   delay.o
         84         22          0          0          0        392   gpio.o
         32         10          0          0          0        388   init_timer.o
-        72          0          0          0          0        416   inputcheck.o
         12          6          0          0          0        376   signal.o
        644        620          0       1024          0        776   startup.o
+       136          4          0          0          0        432   systick.o
 
     ----------------------------------------------------------------------
-       964        662          0       1024          0       3024   Object Totals
+       948        664          0       1024          0       3012   Object Totals
          0          0          0          0          0          0   (incl. Generated)
          0          0          0          0          0          0   (incl. Padding)
 
@@ -286,15 +290,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       972        662          0       1024          0       2676   Grand Totals
-       972        662          0       1024          0       2676   ELF Image Totals
-       972        662          0       1024          0          0   ROM Totals
+       956        664          0       1024          0       2664   Grand Totals
+       956        664          0       1024          0       2664   ELF Image Totals
+       956        664          0       1024          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                  972 (   0.95kB)
+    Total RO  Size (Code + RO Data)                  956 (   0.93kB)
     Total RW  Size (RW Data + ZI Data)              1024 (   1.00kB)
-    Total ROM Size (Code + RO Data + RW Data)       1996 (   1.95kB)
+    Total ROM Size (Code + RO Data + RW Data)       1980 (   1.93kB)
 
 ==============================================================================
 

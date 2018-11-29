@@ -1,0 +1,139 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+    2 00000000         
+    3 00000000                 AREA             main, READONLY, CODE
+    4 00000000                 THUMB
+    5 00000000                 EXTERN           SignalSend  ; GPIO signal send
+    6 00000000                 EXTERN           InitGPIO    ; GPIO initialize
+    7 00000000                 EXTERN           delay       ; Delay is availabl
+                                                            e
+    8 00000000                 EXTERN           SysTick_Handler ;CHECKINPUT ; I
+                                                            nput Check is avail
+                                                            able
+    9 00000000                 EXTERN           Init_Timer
+   10 00000000                 EXPORT           __main      ; Make available
+   11 00000000         __main
+   12 00000000 F7FF FFFE       BL               InitGPIO    ; GPIO initialized
+   13 00000004 F04F 0401       MOV              R4, #1      ;
+   14 00000008 F04F 0600       MOV              R6, #0      ;
+   15 0000000C F7FF FFFE       BL               SignalSend  ;
+   16 00000010 F04F 0500       MOV              R5,#0       ; R2 holds the info
+                                                            rmation cw or ccw
+   17 00000014 F04F 0401       MOV              R4, #1      ;
+   18 00000018 F8DF A010       LDR              R10, =500000
+   19 0000001C F7FF FFFE       BL               Init_Timer
+   20 00000020 F242 7AC0 
+              F2C0 0A09        MOV32            R10, #600000
+   21 00000028         BEGIN
+   22 00000028         ;WFI;BL  CHECKINPUT
+   23 00000028         
+   24 00000028 E7FE            B                BEGIN
+   25 0000002A 00 00           ALIGN
+   26 0000002C                 END
+              0007A120 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\__main.lst __main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+BEGIN 00000028
+
+Symbol: BEGIN
+   Definitions
+      At line 21 in file __main.s
+   Uses
+      At line 24 in file __main.s
+Comment: BEGIN used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 11 in file __main.s
+   Uses
+      At line 10 in file __main.s
+Comment: __main used once
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 3 in file __main.s
+   Uses
+      None
+Comment: main unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 1 in file __main.s
+   Uses
+      None
+Comment: GPIO_PORTB_DATA unused
+1 symbol
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+InitGPIO 00000000
+
+Symbol: InitGPIO
+   Definitions
+      At line 6 in file __main.s
+   Uses
+      At line 12 in file __main.s
+Comment: InitGPIO used once
+Init_Timer 00000000
+
+Symbol: Init_Timer
+   Definitions
+      At line 9 in file __main.s
+   Uses
+      At line 19 in file __main.s
+Comment: Init_Timer used once
+SignalSend 00000000
+
+Symbol: SignalSend
+   Definitions
+      At line 5 in file __main.s
+   Uses
+      At line 15 in file __main.s
+Comment: SignalSend used once
+SysTick_Handler 00000000
+
+Symbol: SysTick_Handler
+   Definitions
+      At line 8 in file __main.s
+   Uses
+      None
+Comment: SysTick_Handler unused
+delay 00000000
+
+Symbol: delay
+   Definitions
+      At line 7 in file __main.s
+   Uses
+      None
+Comment: delay unused
+5 symbols
+345 symbols in table

@@ -2,8 +2,6 @@
 ;LABEL		DIRECTIVE	VALUE		COMMENT
 			AREA    	main, READONLY, CODE
 			THUMB
-			EXTERN		OutStr	; Reference external subroutine	
-			EXTERN		InChar; Serial input Added
 			EXTERN		SignalSend;	GPIO signal send
 			EXTERN		InitGPIO; GPIO initialize
 			EXTERN		delay; Delay is available

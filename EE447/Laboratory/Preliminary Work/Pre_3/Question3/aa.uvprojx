@@ -383,21 +383,6 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>InChar.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>D:\4_sinif\EE447\Laboratory\Supplementary Codes\InChar.s</FilePath>
-            </File>
-            <File>
-              <FileName>OutStr.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>D:\4_sinif\EE447\Laboratory\Supplementary Codes\OutStr.s</FilePath>
-            </File>
-            <File>
-              <FileName>Startup.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>D:\4_sinif\EE447\Laboratory\Supplementary Codes\Startup.s</FilePath>
-            </File>
-            <File>
               <FileName>__main.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\__main.s</FilePath>
@@ -421,6 +406,11 @@
               <FileName>gpio.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\gpio.s</FilePath>
+            </File>
+            <File>
+              <FileName>Startup.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Startup.s</FilePath>
             </File>
           </Files>
         </Group>

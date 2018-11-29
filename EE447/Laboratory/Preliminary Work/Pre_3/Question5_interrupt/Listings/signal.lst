@@ -1,0 +1,82 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000 400053FC 
+                       GPIO_PORTB_DATA
+                               EQU              0x400053FC
+    2 00000000         ;*******************************************************
+                       ********
+    3 00000000         ; Program section           
+    4 00000000         ;*******************************************************
+                       ********
+    5 00000000         ;LABEL  DIRECTIVE VALUE  COMMENT
+    6 00000000         ;LABEL DIRECTIVE VALUE COMMENT
+    7 00000000                 AREA             rutins , CODE, READONLY
+    8 00000000                 THUMB
+    9 00000000                 EXPORT           SignalSend  ;
+   10 00000000         SignalSend
+                               PROC
+   11 00000000 4901            LDR              R1,=GPIO_PORTB_DATA ; Data addr
+                                                            ess in R1
+   12 00000002 600E            STR              R6,[R1]     ; Corresponding Out
+                                                            puts set high
+   13 00000004 4770            BX               LR          ; end
+   14 00000006         
+   15 00000006         ;*******************************************************
+                       ********
+   16 00000006         ; End of the program  section
+   17 00000006         ;*******************************************************
+                       ********
+   18 00000006         ;LABEL      DIRECTIVE       VALUE                       
+                           COMMENT
+   19 00000006 00 00           ALIGN
+   20 00000008                 ENDP
+   21 00000008                 END
+              400053FC 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\signal.d -o.\objects\signal.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\signal.lst signal.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+SignalSend 00000000
+
+Symbol: SignalSend
+   Definitions
+      At line 10 in file signal.s
+   Uses
+      At line 9 in file signal.s
+Comment: SignalSend used once
+rutins 00000000
+
+Symbol: rutins
+   Definitions
+      At line 7 in file signal.s
+   Uses
+      None
+Comment: rutins unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+GPIO_PORTB_DATA 400053FC
+
+Symbol: GPIO_PORTB_DATA
+   Definitions
+      At line 1 in file signal.s
+   Uses
+      At line 11 in file signal.s
+Comment: GPIO_PORTB_DATA used once
+1 symbol
+339 symbols in table
