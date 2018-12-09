@@ -135,7 +135,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>lmidk-agdi</Key>
-          <Name>-U -O4622 -S3 -FO29</Name>
+          <Name>-U-O4622 -O4622 -S3 -FO29</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -144,18 +144,11 @@
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
-      <WatchWindow1>
-        <Ww>
-          <count>0</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>GPIO_PORTF_DATA</ItemText>
-        </Ww>
-      </WatchWindow1>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>0</SubType>
-          <ItemText>0x40025010</ItemText>
+          <ItemText>0x20000480</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -201,6 +194,16 @@
       <pszMrulep></pszMrulep>
       <pSingCmdsp></pSingCmdsp>
       <pMultCmdsp></pMultCmdsp>
+      <SystemViewers>
+        <Entry>
+          <Name>System Viewer\TIMER0</Name>
+          <WinId>35904</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\TIMER1</Name>
+          <WinId>35905</WinId>
+        </Entry>
+      </SystemViewers>
     </TargetOption>
   </Target>
 
@@ -217,6 +220,18 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+      <PathWithFileName>.\__main.s</PathWithFileName>
+      <FilenameWithoutPath>__main.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>2</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
       <PathWithFileName>.\Pulse.s</PathWithFileName>
       <FilenameWithoutPath>Pulse.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -224,7 +239,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>2</FileNumber>
+      <FileNumber>3</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -236,13 +251,37 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>3</FileNumber>
+      <FileNumber>4</FileNumber>
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\__main.s</PathWithFileName>
-      <FilenameWithoutPath>__main.s</FilenameWithoutPath>
+      <PathWithFileName>.\OutStr.s</PathWithFileName>
+      <FilenameWithoutPath>OutStr.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>5</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\read.s</PathWithFileName>
+      <FilenameWithoutPath>read.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>6</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\CONVRT.s</PathWithFileName>
+      <FilenameWithoutPath>CONVRT.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

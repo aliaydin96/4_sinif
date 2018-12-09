@@ -32,17 +32,19 @@ SYSCTL_RCGCGPIO 	EQU 0x400FE608 ; GPIO Gate Control
 SYSCTL_RCGCTIMER 	EQU 0x400FE604 ; GPTM Gate Control
 
 ;---------------------------------------------------
-LOW					EQU	0x00000014
-HIGH				EQU	0x0000001E
+LOW					EQU	0x00000028
+HIGH				EQU	0x00000028
+
 ;---------------------------------------------------
 					
 			AREA 	routines, CODE, READONLY
 			THUMB
 			EXPORT 	My_Timer0A_Handler
 			EXPORT	PULSE_INIT
+			;EXTERN	OutChar
 					
 ;---------------------------------------------------					
-My_Timer0A_Handler		PROC
+My_Timer0A_Handler	PROC
 					LDR	R1,=TIMER0_ICR; Clear the Flag
 					MOV	R0,#0x01;
 					STR	R0,[R1]; Time Out Interrupt clearead
@@ -62,8 +64,11 @@ MakeItLow			MOV	R2,#0;
 					STR	R2,[R1];
 					LDR	R1,=TIMER0_TAILR;
 					LDR	R2,=LOW;
-					STR	R2,[R1];									
-					BX 	LR 
+					STR	R2,[R1];					
+				
+					BX	LR;
+					
+					
 					ENDP
 ;---------------------------------------------------
 
@@ -82,17 +87,19 @@ PULSE_INIT	PROC
 			LDR R1, =GPIO_PORTF_AFSEL ; regular port function
 			LDR R0, [R1]
 			BIC R0, R0, #0x04
+			ORR	R0,	R0,	#0x10; PF0 afsel enabled
 			STR R0, [R1]
 			LDR R1, =GPIO_PORTF_PCTL ; no alternate function
 			LDR R0, [R1]
-			BIC R0, R0, #0x00000F00
+			BIC R0, R0, #0x00000F00 ; PF0 Timer0 A
+			ORR	R0, #0x00070000;
 			STR R0, [R1]
 			LDR R1, =GPIO_PORTF_AMSEL ; disable analog
 			MOV R0, #0
 			STR R0, [R1]
 			LDR R1, =GPIO_PORTF_DEN ; enable port digital
 			LDR R0, [R1]
-			ORR R0, R0, #0x04
+			ORR R0, R0, #0x14 ; PF0 digital enabled
 			STR R0, [R1]
 		
 			LDR R1, =SYSCTL_RCGCTIMER ; Start Timer0
@@ -120,7 +127,7 @@ PULSE_INIT	PROC
 			LDR R1, =TIMER0_IMR ; enable timeout interrupt
 			MOV R2, #0x01
 			STR R2, [R1]
-; Configure interrupt priorities
+			; Configure interrupt priorities
 ; Timer0A is interrupt #19.
 ; Interrupts 16-19 are handled by NVIC register PRI4.
 ; Interrupt 19 is controlled by bits 31:29 of PRI4.
@@ -138,6 +145,7 @@ PULSE_INIT	PROC
 			MOVT R2, #0x08 ; set bit 19 to enable interrupt 19
 			STR R2, [R1]
 ; Enable timer
+
 			LDR R1, =TIMER0_CTL
 			LDR R2, [R1]
 			ORR R2, R2, #0x03 ; set bit0 to enable

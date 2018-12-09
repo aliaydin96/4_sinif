@@ -383,9 +383,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>Pulse.s</FileName>
+              <FileName>Q1_Main.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\Pulse.s</FilePath>
+              <FilePath>.\Q1_Main.s</FilePath>
             </File>
             <File>
               <FileName>Startup.s</FileName>
@@ -393,9 +393,9 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>__main.s</FileName>
+              <FileName>Pulse.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\__main.s</FilePath>
+              <FilePath>.\Pulse.s</FilePath>
             </File>
           </Files>
         </Group>

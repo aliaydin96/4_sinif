@@ -4,16 +4,20 @@ Component: ARM Compiler 5.06 update 6 (build 750) Tool: armlink [4d35ed]
 
 Section Cross References
 
+    __main.o(main) refers to read.o(routines) for READ_INIT
+    __main.o(main) refers to pulse.o(routines) for PULSE_INIT
+    __main.o(main) refers to outstr.o(.text) for OutStr
+    __main.o(main) refers to convrt.o(routines) for CONVRT
+    __main.o(main) refers to __main.o(sdata) for MSG
     startup.o(STACK) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(HEAP) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(RESET) refers to startup.o(STACK) for StackMem
-    startup.o(RESET) refers to __main.o(routines) for __main
+    startup.o(RESET) refers to __main.o(main) for __main
     startup.o(RESET) refers to pulse.o(routines) for My_Timer0A_Handler
     startup.o(.text) refers (Special) to heapauxi.o(.text) for __use_two_region_memory
     startup.o(.text) refers to startup.o(HEAP) for HeapMem
     startup.o(.text) refers to startup.o(STACK) for StackMem
-    __main.o(routines) refers to pulse.o(routines) for PULSE_INIT
 
 
 ==============================================================================
@@ -35,16 +39,29 @@ Image Symbol Table
 
     RESET                                    0x00000000   Section      656  startup.o(RESET)
     ../clib/heapaux.c                        0x00000000   Number         0  heapauxi.o ABSOLUTE
+    CONVRT.s                                 0x00000000   Number         0  convrt.o ABSOLUTE
+    OutStr.s                                 0x00000000   Number         0  outstr.o ABSOLUTE
     Pulse.s                                  0x00000000   Number         0  pulse.o ABSOLUTE
     Startup.s                                0x00000000   Number         0  startup.o ABSOLUTE
     __main.s                                 0x00000000   Number         0  __main.o ABSOLUTE
     dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
+    read.s                                   0x00000000   Number         0  read.o ABSOLUTE
     $v0                                      0x0000026c   Number         0  startup.o(RESET)
-    .text                                    0x00000290   Section        0  heapauxi.o(.text)
-    routines                                 0x00000298   Section      280  pulse.o(routines)
-    $v0                                      0x00000298   Number         0  pulse.o(routines)
-    routines                                 0x000003b0   Section        6  __main.o(routines)
-    $v0                                      0x000003b0   Number         0  __main.o(routines)
+    .text                                    0x00000290   Section      236  outstr.o(.text)
+    $v0                                      0x00000290   Number         0  outstr.o(.text)
+    .text                                    0x0000037c   Section        0  heapauxi.o(.text)
+    main                                     0x00000384   Section      252  __main.o(main)
+    $v0                                      0x00000384   Number         0  __main.o(main)
+    routines                                 0x00000480   Section      280  pulse.o(routines)
+    $v0                                      0x00000480   Number         0  pulse.o(routines)
+    routines                                 0x00000598   Section      180  read.o(routines)
+    $v0                                      0x00000598   Number         0  read.o(routines)
+    routines                                 0x0000064c   Section       92  convrt.o(routines)
+    $v0                                      0x0000064c   Number         0  convrt.o(routines)
+    sdata                                    0x000006a8   Section       38  __main.o(sdata)
+    MSG                                      0x000006a8   Data          12  __main.o(sdata)
+    MSG1                                     0x000006b6   Data           7  __main.o(sdata)
+    MSG2                                     0x000006bf   Data          13  __main.o(sdata)
     STACK                                    0x20000000   Section     1024  startup.o(STACK)
     StackMem                                 0x20000000   Data           0  startup.o(STACK)
 
@@ -52,7 +69,7 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
-    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$VFPi3$EXTD16$VFPS$VFMA$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$ROPI$EBA8$STANDARDLIB$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    BuildAttributes$$THM_ISAv4$E$P$D$K$B$S$7EM$VFPi3$EXTD16$VFPS$VFMA$PE$A:L22UL41UL21$X:L11$S22US41US21$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$ROPI$EBA8$STANDARDLIB$REQ8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
     __Vectors                                0x00000000   Data           0  startup.o(RESET)
     Reset_Handler                            0x0000026d   Thumb Code     0  startup.o(RESET)
     NMI_Handler                              0x00000271   Thumb Code     2  startup.o(RESET)
@@ -178,12 +195,15 @@ Image Symbol Table
     WideTimer5B_Handler                      0x0000028f   Thumb Code     0  startup.o(RESET)
     uDMA_Error                               0x0000028f   Thumb Code     0  startup.o(RESET)
     uDMA_Handler                             0x0000028f   Thumb Code     0  startup.o(RESET)
-    __use_two_region_memory                  0x00000291   Thumb Code     2  heapauxi.o(.text)
-    __rt_heap_escrow$2region                 0x00000293   Thumb Code     2  heapauxi.o(.text)
-    __rt_heap_expand$2region                 0x00000295   Thumb Code     2  heapauxi.o(.text)
-    My_Timer0A_Handler                       0x00000299   Thumb Code    48  pulse.o(routines)
-    PULSE_INIT                               0x000002c9   Thumb Code   162  pulse.o(routines)
-    __main                                   0x000003b1   Thumb Code     0  __main.o(routines)
+    OutStr                                   0x00000291   Thumb Code     0  outstr.o(.text)
+    __use_two_region_memory                  0x0000037d   Thumb Code     2  heapauxi.o(.text)
+    __rt_heap_escrow$2region                 0x0000037f   Thumb Code     2  heapauxi.o(.text)
+    __rt_heap_expand$2region                 0x00000381   Thumb Code     2  heapauxi.o(.text)
+    __main                                   0x00000385   Thumb Code     0  __main.o(main)
+    My_Timer0A_Handler                       0x00000481   Thumb Code    48  pulse.o(routines)
+    PULSE_INIT                               0x000004b1   Thumb Code   162  pulse.o(routines)
+    READ_INIT                                0x00000599   Thumb Code   136  read.o(routines)
+    CONVRT                                   0x0000064d   Thumb Code    92  convrt.o(routines)
 
 
 
@@ -193,27 +213,31 @@ Memory Map of the image
 
   Image Entry point : 0x0000026d
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x000007b8, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x00000ad0, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000003b8, Max: 0xffffffff, ABSOLUTE)
-
-    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
-
-    0x00000000   0x00000000   0x00000290   Code   RO            9  * RESET               startup.o
-    0x00000290   0x00000290   0x00000006   Code   RO           21    .text               c_w.l(heapauxi.o)
-    0x00000296   0x00000296   0x00000002   PAD
-    0x00000298   0x00000298   0x00000118   Code   RO            1    routines            pulse.o
-    0x000003b0   0x000003b0   0x00000006   Code   RO           16    routines            __main.o
-
-
-    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000003b8, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000006d0, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x000003b8   0x00000400   Data   RW            7    STACK               startup.o
+    0x00000000   0x00000000   0x00000290   Code   RO           13  * RESET               startup.o
+    0x00000290   0x00000290   0x000000ec   Code   RO           20    .text               outstr.o
+    0x0000037c   0x0000037c   0x00000006   Code   RO           33    .text               c_w.l(heapauxi.o)
+    0x00000382   0x00000382   0x00000002   PAD
+    0x00000384   0x00000384   0x000000fc   Code   RO            2    main                __main.o
+    0x00000480   0x00000480   0x00000118   Code   RO            7    routines            pulse.o
+    0x00000598   0x00000598   0x000000b4   Code   RO           23    routines            read.o
+    0x0000064c   0x0000064c   0x0000005c   Code   RO           27    routines            convrt.o
+    0x000006a8   0x000006a8   0x00000026   Data   RO            1    sdata               __main.o
 
 
-    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x000007b8, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x20000000, Load base: 0x000006d0, Size: 0x00000400, Max: 0xffffffff, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x20000000   0x000006d0   0x00000400   Data   RW           11    STACK               startup.o
+
+
+    Execution Region ER_ZI (Exec base: 0x20000400, Load base: 0x00000ad0, Size: 0x00000000, Max: 0xffffffff, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -225,14 +249,17 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-         6          0          0          0          0        232   __main.o
-       280         70          0          0          0        524   pulse.o
+       252         34         38          0          0        328   __main.o
+        92          0          0          0          0        388   convrt.o
+       236         54          0          0          0        312   outstr.o
+       280         70          0          0          0        492   pulse.o
+       180         44          0          0          0        416   read.o
        656        620          0       1024          0        768   startup.o
 
     ----------------------------------------------------------------------
-       944        690          0       1024          0       1524   Object Totals
+      1696        822         40       1024          0       2704   Object Totals
          0          0          0          0          0          0   (incl. Generated)
-         2          0          0          0          0          0   (incl. Padding)
+         0          0          2          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -260,15 +287,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       952        690          0       1024          0       1576   Grand Totals
-       952        690          0       1024          0       1576   ELF Image Totals
-       952        690          0       1024          0          0   ROM Totals
+      1704        822         40       1024          0       2556   Grand Totals
+      1704        822         40       1024          0       2556   ELF Image Totals
+      1704        822         40       1024          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                  952 (   0.93kB)
+    Total RO  Size (Code + RO Data)                 1744 (   1.70kB)
     Total RW  Size (RW Data + ZI Data)              1024 (   1.00kB)
-    Total ROM Size (Code + RO Data + RW Data)       1976 (   1.93kB)
+    Total ROM Size (Code + RO Data + RW Data)       2768 (   2.70kB)
 
 ==============================================================================
 

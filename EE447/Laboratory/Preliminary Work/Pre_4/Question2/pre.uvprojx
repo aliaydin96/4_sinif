@@ -383,6 +383,11 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
+              <FileName>__main.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\__main.s</FilePath>
+            </File>
+            <File>
               <FileName>Pulse.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\Pulse.s</FilePath>
@@ -393,9 +398,19 @@
               <FilePath>.\Startup.s</FilePath>
             </File>
             <File>
-              <FileName>__main.s</FileName>
+              <FileName>OutStr.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\__main.s</FilePath>
+              <FilePath>.\OutStr.s</FilePath>
+            </File>
+            <File>
+              <FileName>read.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\read.s</FilePath>
+            </File>
+            <File>
+              <FileName>CONVRT.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\CONVRT.s</FilePath>
             </File>
           </Files>
         </Group>

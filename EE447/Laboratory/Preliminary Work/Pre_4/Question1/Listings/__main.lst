@@ -1,0 +1,81 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             routines, CODE, READONLY
+    2 00000000                 THUMB
+    3 00000000                 EXTERN           Timer0A_Handler
+    4 00000000                 EXTERN           PULSE_INIT
+    5 00000000                 EXPORT           __main
+    6 00000000         
+    7 00000000         __main
+    8 00000000 F7FF FFFE       BL               PULSE_INIT
+    9 00000004         
+   10 00000004 E7FE    LOOP    B                LOOP
+   11 00000006         
+   12 00000006         
+   13 00000006         
+   14 00000006         
+                       
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\__main.d -o.\objects\__main.o -I.\RTE\_Target_1 -IC:\
+Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -IC:\Keil_v5\ARM\CM
+SIS\Include --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 526
+" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\__main.lst __main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+LOOP 00000004
+
+Symbol: LOOP
+   Definitions
+      At line 10 in file __main.s
+   Uses
+      At line 10 in file __main.s
+Comment: LOOP used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 7 in file __main.s
+   Uses
+      At line 5 in file __main.s
+Comment: __main used once
+routines 00000000
+
+Symbol: routines
+   Definitions
+      At line 1 in file __main.s
+   Uses
+      None
+Comment: routines unused
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+PULSE_INIT 00000000
+
+Symbol: PULSE_INIT
+   Definitions
+      At line 4 in file __main.s
+   Uses
+      At line 8 in file __main.s
+Comment: PULSE_INIT used once
+Timer0A_Handler 00000000
+
+Symbol: Timer0A_Handler
+   Definitions
+      At line 3 in file __main.s
+   Uses
+      None
+Comment: Timer0A_Handler unused
+2 symbols
+339 symbols in table
