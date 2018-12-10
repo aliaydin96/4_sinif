@@ -94,10 +94,10 @@ ARM Macro Assembler    Page 2
                                                             
    33 00000000         
    34 00000000         ;---------------------------------------------------
-   35 00000000 00000129 
-                       LOW     EQU              297
-   36 00000000 000000C5 
-                       HIGH    EQU              197
+   35 00000000 00000014 
+                       LOW     EQU              20
+   36 00000000 0000001E 
+                       HIGH    EQU              30
    37 00000000         ;---------------------------------------------------
    38 00000000         
    39 00000000                 AREA             routines, CODE, READONLY
@@ -122,7 +122,7 @@ ARM Macro Assembler    Page 2
    54 00000010 F04F 0204       MOV              R2,#4       ;
    55 00000014 600A            STR              R2,[R1]     ;
    56 00000016 4931            LDR              R1,=TIMER0_TAILR ;
-   57 00000018 F04F 02C5       LDR              R2,=HIGH    ;
+   57 00000018 F04F 021E       LDR              R2,=HIGH    ;
    58 0000001C 600A            STR              R2,[R1]     ;
    59 0000001E 4770            BX               LR          ;
    60 00000020         
@@ -137,7 +137,7 @@ ARM Macro Assembler    Page 3
                                MOV              R2,#0       ;
    62 00000024 600A            STR              R2,[R1]     ;
    63 00000026 492D            LDR              R1,=TIMER0_TAILR ;
-   64 00000028 F240 1229       LDR              R2,=LOW     ;
+   64 00000028 F04F 0214       LDR              R2,=LOW     ;
    65 0000002C 600A            STR              R2,[R1]     ;         
    66 0000002E 4770            BX               LR
    67 00000030                 ENDP
@@ -211,7 +211,7 @@ ARM Macro Assembler    Page 4
   113 00000096 600A            STR              R2, [R1]
   114 00000098 4910            LDR              R1, =TIMER0_TAILR ; initialize 
                                                             match clocks
-  115 0000009A F240 1229       LDR              R2, =LOW
+  115 0000009A F04F 0214       LDR              R2, =LOW
   116 0000009E 600A            STR              R2, [R1]
   117 000000A0 4919            LDR              R1, =TIMER0_TAPR
   118 000000A2 F04F 020F       MOV              R2, #15     ; divide clock by 1
@@ -373,7 +373,7 @@ Symbol: GPIO_PORTF_PCTL
    Uses
       At line 86 in file Pulse.s
 Comment: GPIO_PORTF_PCTL used once
-HIGH 000000C5
+HIGH 0000001E
 
 Symbol: HIGH
    Definitions
@@ -381,7 +381,7 @@ Symbol: HIGH
    Uses
       At line 57 in file Pulse.s
 Comment: HIGH used once
-LOW 00000129
+LOW 00000014
 
 Symbol: LOW
 

@@ -127,14 +127,15 @@ ARM Macro Assembler    Page 2
    65 00000042 D005            BEQ              THIRD_NUMBER
    66 00000044         
    67 00000044         FIRST_NUMBER
-   68 00000044 2A10            CMP              R2, #0x10
+   68 00000044 2A10            CMP              R2, #0x10   ;IF sees positive e
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-   69 00000046 D1E8            BNE              loop
+                                                            dge, contunie
+   69 00000046 D1E8            BNE              loop        ;if not, go begin
    70 00000048 4606            MOV              R6, R0
    71 0000004A E7E6            B                loop
    72 0000004C         SECOND_NUMBER
@@ -148,62 +149,60 @@ ARM Macro Assembler    Page 3
    80 00000054         CONTINUE
    81 00000054 E92D 01E0       PUSH             {R5, R6, R7, R8}
    82 00000058 4D28            LDR              R5,=MSG
-   83 0000005A F7FF FFFE       BL               OutStr
+   83 0000005A F7FF FFFE       BL               OutStr      ;to write string ab
+                                                            ove definition
    84 0000005E E8BD 01E0       POP              {R5, R6, R7, R8}
    85 00000062 F04F 0210       MOV              R2, #16
-   86 00000066 FBB6 F6F2       UDIV             R6, R6, R2
-   87 0000006A FBB8 F8F2       UDIV             R8, R8, R2
-   88 0000006E FBBA FAF2       UDIV             R10, R10, R2
-   89 00000072 EBA6 0408       SUB              R4, R6, R8
+   86 00000066 FBB6 F6F2       UDIV             R6, R6, R2  ; r6 to microsec(us
+                                                            )
+   87 0000006A FBB8 F8F2       UDIV             R8, R8, R2  ;r8 to us
+   88 0000006E FBBA FAF2       UDIV             R10, R10, R2 ;r10 to us
+   89 00000072 EBA6 0408       SUB              R4, R6, R8  ;to find pulse widt
+                                                            h
    90 00000076 E92D 01E0       PUSH             {R5, R6, R7, R8}
    91 0000007A 4D21            LDR              R5,=FIRST   ;
    92 0000007C F7FF FFFE       BL               CONVRT
    93 00000080 4D1F            LDR              R5,=FIRST   ;   
-   94 00000082         ;PUSH{LR}
-   95 00000082 F7FF FFFE       BL               OutStr
-   96 00000086         ;POP{LR}
-   97 00000086 E8BD 01E0       POP              {R5, R6, R7, R8}
-   98 0000008A E92D 01E0       PUSH             {R5, R6, R7, R8}
-   99 0000008E 4D1D            LDR              R5,=MSG1
-  100 00000090 F7FF FFFE       BL               OutStr
-  101 00000094 E8BD 01E0       POP              {R5, R6, R7, R8}
-  102 00000098 F04F 0400       MOV              R4, #0
-  103 0000009C EBA6 040A       SUB              R4, R6, R10
-  104 000000A0 E92D 01E0       PUSH             {R5, R6, R7, R8}
-  105 000000A4 4D16            LDR              R5,=FIRST   ;
-  106 000000A6 F7FF FFFE       BL               CONVRT
-  107 000000AA 4D15            LDR              R5,=FIRST   ;   
-  108 000000AC         ;PUSH{LR}
-  109 000000AC F7FF FFFE       BL               OutStr
-  110 000000B0 E8BD 01E0       POP              {R5, R6, R7, R8}
-  111 000000B4         ;POP{LR}   
-  112 000000B4 E92D 01E0       PUSH             {R5, R6, R7, R8}
-  113 000000B8 4D13            LDR              R5,=MSG2
-  114 000000BA F7FF FFFE       BL               OutStr
-  115 000000BE E8BD 01E0       POP              {R5, R6, R7, R8}
-  116 000000C2 EBA6 040A       SUB              R4, R6, R10
-  117 000000C6 F04F 0B64       MOV              R11, #100
-  118 000000CA EBA6 0608       SUB              R6, R6, R8
-  119 000000CE FB06 F60B       MUL              R6, R6, R11
-  120 000000D2 FBB6 F4F4       UDIV             R4, R6, R4
-  121 000000D6 E92D 01E0       PUSH             {R5, R6, R7, R8}
-  122 000000DA 4D09            LDR              R5,=FIRST   ;
-  123 000000DC F7FF FFFE       BL               CONVRT
-  124 000000E0 4D07            LDR              R5,=FIRST   ;   
-  125 000000E2         ;PUSH{LR}
-  126 000000E2 F7FF FFFE       BL               OutStr
-  127 000000E6 E8BD 01E0       POP              {R5, R6, R7, R8}
+   94 00000082 F7FF FFFE       BL               OutStr      ; write pulse width
+                                                            
+   95 00000086 E8BD 01E0       POP              {R5, R6, R7, R8}
+   96 0000008A E92D 01E0       PUSH             {R5, R6, R7, R8}
+   97 0000008E 4D1D            LDR              R5,=MSG1
+   98 00000090 F7FF FFFE       BL               OutStr      ;write string
+   99 00000094 E8BD 01E0       POP              {R5, R6, R7, R8}
+  100 00000098 F04F 0400       MOV              R4, #0
+  101 0000009C EBA6 040A       SUB              R4, R6, R10 ;to find period
+  102 000000A0 E92D 01E0       PUSH             {R5, R6, R7, R8}
+  103 000000A4 4D16            LDR              R5,=FIRST   ;
+  104 000000A6 F7FF FFFE       BL               CONVRT
+  105 000000AA 4D15            LDR              R5,=FIRST   ;   
+  106 000000AC F7FF FFFE       BL               OutStr      ;write period
+  107 000000B0 E8BD 01E0       POP              {R5, R6, R7, R8}
+  108 000000B4 E92D 01E0       PUSH             {R5, R6, R7, R8}
+  109 000000B8 4D13            LDR              R5,=MSG2
+  110 000000BA F7FF FFFE       BL               OutStr      ;write string
+  111 000000BE E8BD 01E0       POP              {R5, R6, R7, R8}
+  112 000000C2 EBA6 040A       SUB              R4, R6, R10 ;period
+  113 000000C6 F04F 0B64       MOV              R11, #100
+  114 000000CA EBA6 0608       SUB              R6, R6, R8  ;pulse width
+  115 000000CE FB06 F60B       MUL              R6, R6, R11
+  116 000000D2 FBB6 F4F4       UDIV             R4, R6, R4  ;duty cycle
+  117 000000D6 E92D 01E0       PUSH             {R5, R6, R7, R8}
+  118 000000DA 4D09            LDR              R5,=FIRST   ;
+  119 000000DC F7FF FFFE       BL               CONVRT
+  120 000000E0 4D07            LDR              R5,=FIRST   ;   
+  121 000000E2 F7FF FFFE       BL               OutStr      ;write duty cycle
+  122 000000E6 E8BD 01E0       POP              {R5, R6, R7, R8}
 
 
 
 ARM Macro Assembler    Page 4 
 
 
-  128 000000EA         ;POP{LR}
-  129 000000EA         
-  130 000000EA E78D            B                START
-  131 000000EC                 ALIGN
-  132 000000EC                 END
+  123 000000EA         
+  124 000000EA E78D            B                START
+  125 000000EC                 ALIGN
+  126 000000EC                 END
               4003101C 
               40031024 
               400053FC 
@@ -237,7 +236,7 @@ Symbol: MSG1
    Definitions
       At line 23 in file __main.s
    Uses
-      At line 99 in file __main.s
+      At line 97 in file __main.s
 Comment: MSG1 used once
 MSG2 00000017
 
@@ -245,7 +244,7 @@ Symbol: MSG2
    Definitions
       At line 26 in file __main.s
    Uses
-      At line 113 in file __main.s
+      At line 109 in file __main.s
 Comment: MSG2 used once
 sdata 00000000
 
@@ -292,7 +291,7 @@ Symbol: START
    Definitions
       At line 41 in file __main.s
    Uses
-      At line 130 in file __main.s
+      At line 124 in file __main.s
 Comment: START used once
 THIRD_NUMBER 00000050
 
@@ -350,10 +349,10 @@ Symbol: FIRST
    Uses
       At line 91 in file __main.s
       At line 93 in file __main.s
+      At line 103 in file __main.s
       At line 105 in file __main.s
-      At line 107 in file __main.s
-      At line 122 in file __main.s
-      At line 124 in file __main.s
+      At line 118 in file __main.s
+      At line 120 in file __main.s
 
 FREQ 00F42400
 
@@ -479,8 +478,8 @@ Symbol: CONVRT
       At line 35 in file __main.s
    Uses
       At line 92 in file __main.s
-      At line 106 in file __main.s
-      At line 123 in file __main.s
+      At line 104 in file __main.s
+      At line 119 in file __main.s
 
 OutStr 00000000
 
@@ -489,11 +488,11 @@ Symbol: OutStr
       At line 34 in file __main.s
    Uses
       At line 83 in file __main.s
-      At line 95 in file __main.s
-      At line 100 in file __main.s
-      At line 109 in file __main.s
-      At line 114 in file __main.s
-      At line 126 in file __main.s
+      At line 94 in file __main.s
+      At line 98 in file __main.s
+      At line 106 in file __main.s
+      At line 110 in file __main.s
+      At line 121 in file __main.s
 
 PULSE_INIT 00000000
 

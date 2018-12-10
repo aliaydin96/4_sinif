@@ -4,209 +4,206 @@
 ARM Macro Assembler    Page 1 
 
 
-    1 00000000         ; read.s
-    2 00000000         ; Uses Timer0B to read pulse train on PB7
-    3 00000000         
-    4 00000000         
-    5 00000000         ; 16/32 Timer Registers
-    6 00000000 40031000 
+    1 00000000         
+    2 00000000         ; 16/32 Timer Registers
+    3 00000000 40031000 
                        TIMER1_CFG
                                EQU              0x40031000  ; Configuration Reg
                                                             ister
-    7 00000000 40031004 
+    4 00000000 40031004 
                        TIMER1_TAMR
                                EQU              0x40031004  ; Mode Register
-    8 00000000 4003100C 
+    5 00000000 4003100C 
                        TIMER1_CTL
                                EQU              0x4003100C  ; Control Register
-    9 00000000 4003101C 
+    6 00000000 4003101C 
                        TIMER1_RIS
                                EQU              0x4003101C  ; Raw interrupt Sta
                                                             tus
-   10 00000000 40031024 
+    7 00000000 40031024 
                        TIMER1_ICR
                                EQU              0x40031024  ; Interrupt Clear R
                                                             egister
-   11 00000000 40031028 
+    8 00000000 40031028 
                        TIMER1_TAILR
                                EQU              0x40031028  ; Interval Load Reg
                                                             ister
-   12 00000000 40031030 
+    9 00000000 40031030 
                        TIMER1_TAMATCHR
                                EQU              0x40031030  ; Match Register
-   13 00000000 40031038 
+   10 00000000 40031038 
                        TIMER1_TAPR
                                EQU              0x40031038  ; Prescaling Divide
                                                             r
-   14 00000000 40031048 
+   11 00000000 40031048 
                        TIMER1_TAR
                                EQU              0x40031048  ; Counter Register
-   15 00000000 40031018 
+   12 00000000 40031018 
                        TIMER1_IMR
                                EQU              0x40031018  ; Defining Interrup
                                                             t
-   16 00000000 40031050 
+   13 00000000 40031050 
                        TIMER1_TAV
                                EQU              0x40031050  ; To set the timer 
                                                             initial value
-   17 00000000         
-   18 00000000         ;GPIO Registers
-   19 00000000         ;Port B base 0x40005000
-   20 00000000 40005010 
+   14 00000000         
+   15 00000000         ;GPIO Registers
+   16 00000000         ;Port B base 0x40005000
+   17 00000000 40005010 
                        GPIO_PORTB_IM
                                EQU              0x40005010  ; Interrupt Mask
-   21 00000000 40005400 
+   18 00000000 40005400 
                        GPIO_PORTB_DIR
                                EQU              0x40005400  ; Port Direction
-   22 00000000 40005420 
+   19 00000000 40005420 
                        GPIO_PORTB_AFSEL
                                EQU              0x40005420  ; Alt Function enab
                                                             le
-   23 00000000 4000551C 
+   20 00000000 4000551C 
+                       GPIO_PORTB_DEN
+                               EQU              0x4000551C  ; Digital Enable
+   21 00000000 40005528 
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-                       GPIO_PORTB_DEN
-                               EQU              0x4000551C  ; Digital Enable
-   24 00000000 40005528 
                        GPIO_PORTB_AMSEL
                                EQU              0x40005528  ; Analog enable
-   25 00000000 4000552C 
+   22 00000000 4000552C 
                        GPIO_PORTB_PCTL
                                EQU              0x4000552C  ; Alternate Functio
                                                             ns
-   26 00000000 40005514 
+   23 00000000 40005514 
                        GPIO_PORTB_PDR
                                EQU              0x40005514  ; Pull down
-   27 00000000         ;System Registers
-   28 00000000 400FE608 
+   24 00000000         ;System Registers
+   25 00000000 400FE608 
                        SYSCTL_RCGCGPIO
                                EQU              0x400FE608  ; GPIO Gate Control
                                                             
-   29 00000000 400FE604 
+   26 00000000 400FE604 
                        SYSCTL_RCGCTIMER
                                EQU              0x400FE604  ; GPTM Gate Control
                                                             
-   30 00000000         
-   31 00000000                 AREA             routines, CODE, READONLY
-   32 00000000                 THUMB
-   33 00000000                 EXPORT           READ_INIT
-   34 00000000         
-   35 00000000         READ_INIT
+   27 00000000         
+   28 00000000                 AREA             routines, CODE, READONLY
+   29 00000000                 THUMB
+   30 00000000                 EXPORT           READ_INIT
+   31 00000000         
+   32 00000000         READ_INIT
                                PROC
-   36 00000000 4921            LDR              R1, =SYSCTL_RCGCGPIO 
+   33 00000000 4921            LDR              R1, =SYSCTL_RCGCGPIO 
                                                             ; start GPIO clock
-   37 00000002 6808            LDR              R0, [R1]
-   38 00000004 F040 0002       ORR              R0, R0, #0x02 ; set bit 2 for p
+   34 00000002 6808            LDR              R0, [R1]
+   35 00000004 F040 0002       ORR              R0, R0, #0x02 ; set bit 2 for p
                                                             ort B
-   39 00000008 6008            STR              R0, [R1]
-   40 0000000A BF00            NOP                          ; allow clock to se
+   36 00000008 6008            STR              R0, [R1]
+   37 0000000A BF00            NOP                          ; allow clock to se
                                                             ttle
-   41 0000000C BF00            NOP
-   42 0000000E BF00            NOP
-   43 00000010 491E            LDR              R1, =GPIO_PORTB_DIR
-   44 00000012 6808            LDR              R0, [R1]
-   45 00000014 F020 0010       BIC              R0, R0, #0x10 ; clear bit 4 for
+   38 0000000C BF00            NOP
+   39 0000000E BF00            NOP
+   40 00000010 491E            LDR              R1, =GPIO_PORTB_DIR
+   41 00000012 6808            LDR              R0, [R1]
+   42 00000014 F020 0010       BIC              R0, R0, #0x10 ; clear bit 4 for
                                                              input
-   46 00000018 6008            STR              R0, [R1]
-   47 0000001A         ; enable alternate function
-   48 0000001A 491D            LDR              R1, =GPIO_PORTB_AFSEL
-   49 0000001C 6808            LDR              R0, [R1]
-   50 0000001E F040 0010       ORR              R0, R0, #0x10 ; set bit4 for al
+   43 00000018 6008            STR              R0, [R1]
+   44 0000001A         ; enable alternate function
+   45 0000001A 491D            LDR              R1, =GPIO_PORTB_AFSEL
+   46 0000001C 6808            LDR              R0, [R1]
+   47 0000001E F040 0010       ORR              R0, R0, #0x10 ; set bit4 for al
                                                             ternate fuction on 
                                                             PB4
-   51 00000022 6008            STR              R0, [R1]
-   52 00000024         ; set alternate function to T1CCP0 (7)
-   53 00000024 491B            LDR              R1, =GPIO_PORTB_PCTL
-   54 00000026 6808            LDR              R0, [R1]
-   55 00000028 F440 20E0       ORR              R0, R0, #0x00070000 ; set bits 
+   48 00000022 6008            STR              R0, [R1]
+   49 00000024         ; set alternate function to T1CCP0 (7)
+   50 00000024 491B            LDR              R1, =GPIO_PORTB_PCTL
+   51 00000026 6808            LDR              R0, [R1]
+   52 00000028 F440 20E0       ORR              R0, R0, #0x00070000 ; set bits 
                                                             27:24 of PCTL to 7
-   56 0000002C 6008            STR              R0, [R1]    ; to enable T1CCP0 
+   53 0000002C 6008            STR              R0, [R1]    ; to enable T1CCP0 
                                                             on PB4
-   57 0000002E         ; disable analog
-   58 0000002E 491A            LDR              R1, =GPIO_PORTB_AMSEL
+   54 0000002E         ; disable analog
+   55 0000002E 491A            LDR              R1, =GPIO_PORTB_AMSEL
+   56 00000030 F04F 0000       MOV              R0, #0      ; clear AMSEL to di
+                                                            able analog
+   57 00000034 6008            STR              R0, [R1]
 
 
 
 ARM Macro Assembler    Page 3 
 
 
-   59 00000030 F04F 0000       MOV              R0, #0      ; clear AMSEL to di
-                                                            able analog
-   60 00000034 6008            STR              R0, [R1]
-   61 00000036 4919            LDR              R1, =GPIO_PORTB_DEN ; enable po
+   58 00000036 4919            LDR              R1, =GPIO_PORTB_DEN ; enable po
                                                             rt digital
-   62 00000038 6808            LDR              R0, [R1]
-   63 0000003A F040 0010       ORR              R0, R0, #0x10
-   64 0000003E 6008            STR              R0, [R1]
-   65 00000040         ; Set pull down
-   66 00000040         ; LDR R1, =GPIO_PORTB_PDR
-   67 00000040         ; MOV R0, #0x10; set PB4 as pull down
-   68 00000040         ; STR R0, [R1];
-   69 00000040         
-   70 00000040         ;Timer1,A initialization
-   71 00000040 4917            LDR              R1, =SYSCTL_RCGCTIMER
-   72 00000042 680A            LDR              R2, [R1]    ; Start timer 1
-   73 00000044 F042 0202       ORR              R2, R2, #0x02 ; Timer module = 
+   59 00000038 6808            LDR              R0, [R1]
+   60 0000003A F040 0010       ORR              R0, R0, #0x10
+   61 0000003E 6008            STR              R0, [R1]
+   62 00000040         ; Set pull down
+   63 00000040         ; LDR R1, =GPIO_PORTB_PDR
+   64 00000040         ; MOV R0, #0x10; set PB4 as pull down
+   65 00000040         ; STR R0, [R1];
+   66 00000040         
+   67 00000040         ;Timer1,A initialization
+   68 00000040 4917            LDR              R1, =SYSCTL_RCGCTIMER
+   69 00000042 680A            LDR              R2, [R1]    ; Start timer 1
+   70 00000044 F042 0202       ORR              R2, R2, #0x02 ; Timer module = 
                                                             bit position (1)
-   74 00000048 600A            STR              R2, [R1]
-   75 0000004A BF00            NOP
-   76 0000004C BF00            NOP
-   77 0000004E BF00            NOP                          ; allow clock to se
+   71 00000048 600A            STR              R2, [R1]
+   72 0000004A BF00            NOP
+   73 0000004C BF00            NOP
+   74 0000004E BF00            NOP                          ; allow clock to se
                                                             ttle
-   78 00000050         ; disable timer during setup
-   79 00000050 4914            LDR              R1, =TIMER1_CTL
-   80 00000052 680A            LDR              R2, [R1]
-   81 00000054 F022 0201       BIC              R2, R2, #0x01 ; clear bit 0 to 
+   75 00000050         ; disable timer during setup
+   76 00000050 4914            LDR              R1, =TIMER1_CTL
+   77 00000052 680A            LDR              R2, [R1]
+   78 00000054 F022 0201       BIC              R2, R2, #0x01 ; clear bit 0 to 
                                                             disable Timer 0
-   82 00000058 600A            STR              R2, [R1]
-   83 0000005A         ; set to 16bit Timer Mode
-   84 0000005A 4913            LDR              R1, =TIMER1_CFG
-   85 0000005C F04F 0204       MOV              R2, #0x04   ; set bits 2:0 to 0
+   79 00000058 600A            STR              R2, [R1]
+   80 0000005A         ; set to 16bit Timer Mode
+   81 0000005A 4913            LDR              R1, =TIMER1_CFG
+   82 0000005C F04F 0204       MOV              R2, #0x04   ; set bits 2:0 to 0
                                                             x04 for 16bit timer
                                                             
-   86 00000060 600A            STR              R2, [R1]
-   87 00000062         ; set for edge time and capture mode
-   88 00000062 4912            LDR              R1, =TIMER1_TAMR ; set bit 4 to
+   83 00000060 600A            STR              R2, [R1]
+   84 00000062         ; set for edge time and capture mode
+   85 00000062 4912            LDR              R1, =TIMER1_TAMR ; set bit 4 to
                                                              0x01 for up counti
                                                             ng
-   89 00000064 F04F 0207       MOV              R2, #0x07   ; set bit2 to 0x01 
+   86 00000064 F04F 0207       MOV              R2, #0x07   ; set bit2 to 0x01 
                                                             for Edge Time Mode,
                                                             
-   90 00000068 600A            STR              R2, [R1]    ; set bits 1:0 to 0
+   87 00000068 600A            STR              R2, [R1]    ; set bits 1:0 to 0
                                                             x03 for Capture Mod
                                                             e
-   91 0000006A         ; set edge detection to both
-   92 0000006A 490E            LDR              R1, =TIMER1_CTL
-   93 0000006C 680A            LDR              R2, [R1]
-   94 0000006E F042 020C       ORR              R2, R2, #0x0C ; set bits 3:2 to
+   88 0000006A         ; set edge detection to both
+   89 0000006A 490E            LDR              R1, =TIMER1_CTL
+   90 0000006C 680A            LDR              R2, [R1]
+   91 0000006E F042 020C       ORR              R2, R2, #0x0C ; set bits 3:2 to
                                                              0x03
-   95 00000072 600A            STR              R2, [R1]
-   96 00000074         ; set start value
-   97 00000074 490E            LDR              R1, =TIMER1_TAILR ; counter cou
+   92 00000072 600A            STR              R2, [R1]
+   93 00000074         ; set start value
+   94 00000074 490E            LDR              R1, =TIMER1_TAILR ; counter cou
                                                             nts down,
-   98 00000076 F04F 30FF       MOV              R0, #0xFFFFFFFF ; so start coun
+   95 00000076 F04F 30FF       MOV              R0, #0xFFFFFFFF ; so start coun
                                                             ter at max value
-   99 0000007A         ;MOV R0, #0x00000000 ; so start counter at min value
-  100 0000007A 6008            STR              R0, [R1]
-  101 0000007C         ; Enable timer
+   96 0000007A         ;MOV R0, #0x00000000 ; so start counter at min value
+   97 0000007A 6008            STR              R0, [R1]
+   98 0000007C         ; Enable timer
+   99 0000007C 4909            LDR              R1, =TIMER1_CTL ;
+  100 0000007E 680A            LDR              R2, [R1]    ;
+  101 00000080 F042 0201       ORR              R2, R2, #0x01 ; set bit 0 to en
 
 
 
 ARM Macro Assembler    Page 4 
 
 
-  102 0000007C 4909            LDR              R1, =TIMER1_CTL ;
-  103 0000007E 680A            LDR              R2, [R1]    ;
-  104 00000080 F042 0201       ORR              R2, R2, #0x01 ; set bit 0 to en
                                                             able
-  105 00000084 600A            STR              R2, [R1]
-  106 00000086 4770            BX               LR
-  107 00000088                 ENDP
-  108 00000088                 END
+  102 00000084 600A            STR              R2, [R1]
+  103 00000086 4770            BX               LR
+  104 00000088                 ENDP
+  105 00000088                 END
               400FE608 
               40005400 
               40005420 
@@ -233,15 +230,15 @@ READ_INIT 00000000
 
 Symbol: READ_INIT
    Definitions
-      At line 35 in file read.s
+      At line 32 in file read.s
    Uses
-      At line 33 in file read.s
+      At line 30 in file read.s
 Comment: READ_INIT used once
 routines 00000000
 
 Symbol: routines
    Definitions
-      At line 31 in file read.s
+      At line 28 in file read.s
    Uses
       None
 Comment: routines unused
@@ -256,39 +253,39 @@ GPIO_PORTB_AFSEL 40005420
 
 Symbol: GPIO_PORTB_AFSEL
    Definitions
-      At line 22 in file read.s
+      At line 19 in file read.s
    Uses
-      At line 48 in file read.s
+      At line 45 in file read.s
 Comment: GPIO_PORTB_AFSEL used once
 GPIO_PORTB_AMSEL 40005528
 
 Symbol: GPIO_PORTB_AMSEL
    Definitions
-      At line 24 in file read.s
+      At line 21 in file read.s
    Uses
-      At line 58 in file read.s
+      At line 55 in file read.s
 Comment: GPIO_PORTB_AMSEL used once
 GPIO_PORTB_DEN 4000551C
 
 Symbol: GPIO_PORTB_DEN
    Definitions
-      At line 23 in file read.s
+      At line 20 in file read.s
    Uses
-      At line 61 in file read.s
+      At line 58 in file read.s
 Comment: GPIO_PORTB_DEN used once
 GPIO_PORTB_DIR 40005400
 
 Symbol: GPIO_PORTB_DIR
    Definitions
-      At line 21 in file read.s
+      At line 18 in file read.s
    Uses
-      At line 43 in file read.s
+      At line 40 in file read.s
 Comment: GPIO_PORTB_DIR used once
 GPIO_PORTB_IM 40005010
 
 Symbol: GPIO_PORTB_IM
    Definitions
-      At line 20 in file read.s
+      At line 17 in file read.s
    Uses
       None
 Comment: GPIO_PORTB_IM unused
@@ -296,15 +293,15 @@ GPIO_PORTB_PCTL 4000552C
 
 Symbol: GPIO_PORTB_PCTL
    Definitions
-      At line 25 in file read.s
+      At line 22 in file read.s
    Uses
-      At line 53 in file read.s
+      At line 50 in file read.s
 Comment: GPIO_PORTB_PCTL used once
 GPIO_PORTB_PDR 40005514
 
 Symbol: GPIO_PORTB_PDR
    Definitions
-      At line 26 in file read.s
+      At line 23 in file read.s
    Uses
       None
 Comment: GPIO_PORTB_PDR unused
@@ -318,41 +315,41 @@ ARM Macro Assembler    Page 2 Alphabetic symbol ordering
 Absolute symbols
 
    Definitions
-      At line 28 in file read.s
+      At line 25 in file read.s
    Uses
-      At line 36 in file read.s
+      At line 33 in file read.s
 Comment: SYSCTL_RCGCGPIO used once
 SYSCTL_RCGCTIMER 400FE604
 
 Symbol: SYSCTL_RCGCTIMER
    Definitions
-      At line 29 in file read.s
+      At line 26 in file read.s
    Uses
-      At line 71 in file read.s
+      At line 68 in file read.s
 Comment: SYSCTL_RCGCTIMER used once
 TIMER1_CFG 40031000
 
 Symbol: TIMER1_CFG
    Definitions
-      At line 6 in file read.s
+      At line 3 in file read.s
    Uses
-      At line 84 in file read.s
+      At line 81 in file read.s
 Comment: TIMER1_CFG used once
 TIMER1_CTL 4003100C
 
 Symbol: TIMER1_CTL
    Definitions
-      At line 8 in file read.s
+      At line 5 in file read.s
    Uses
-      At line 79 in file read.s
-      At line 92 in file read.s
-      At line 102 in file read.s
+      At line 76 in file read.s
+      At line 89 in file read.s
+      At line 99 in file read.s
 
 TIMER1_ICR 40031024
 
 Symbol: TIMER1_ICR
    Definitions
-      At line 10 in file read.s
+      At line 7 in file read.s
    Uses
       None
 Comment: TIMER1_ICR unused
@@ -360,7 +357,7 @@ TIMER1_IMR 40031018
 
 Symbol: TIMER1_IMR
    Definitions
-      At line 15 in file read.s
+      At line 12 in file read.s
    Uses
       None
 Comment: TIMER1_IMR unused
@@ -368,7 +365,7 @@ TIMER1_RIS 4003101C
 
 Symbol: TIMER1_RIS
    Definitions
-      At line 9 in file read.s
+      At line 6 in file read.s
    Uses
       None
 Comment: TIMER1_RIS unused
@@ -382,15 +379,15 @@ Symbol: TIMER1_TAILR
 ARM Macro Assembler    Page 3 Alphabetic symbol ordering
 Absolute symbols
 
-      At line 11 in file read.s
+      At line 8 in file read.s
    Uses
-      At line 97 in file read.s
+      At line 94 in file read.s
 Comment: TIMER1_TAILR used once
 TIMER1_TAMATCHR 40031030
 
 Symbol: TIMER1_TAMATCHR
    Definitions
-      At line 12 in file read.s
+      At line 9 in file read.s
    Uses
       None
 Comment: TIMER1_TAMATCHR unused
@@ -398,15 +395,15 @@ TIMER1_TAMR 40031004
 
 Symbol: TIMER1_TAMR
    Definitions
-      At line 7 in file read.s
+      At line 4 in file read.s
    Uses
-      At line 88 in file read.s
+      At line 85 in file read.s
 Comment: TIMER1_TAMR used once
 TIMER1_TAPR 40031038
 
 Symbol: TIMER1_TAPR
    Definitions
-      At line 13 in file read.s
+      At line 10 in file read.s
    Uses
       None
 Comment: TIMER1_TAPR unused
@@ -414,7 +411,7 @@ TIMER1_TAR 40031048
 
 Symbol: TIMER1_TAR
    Definitions
-      At line 14 in file read.s
+      At line 11 in file read.s
    Uses
       None
 Comment: TIMER1_TAR unused
@@ -422,7 +419,7 @@ TIMER1_TAV 40031050
 
 Symbol: TIMER1_TAV
    Definitions
-      At line 16 in file read.s
+      At line 13 in file read.s
    Uses
       None
 Comment: TIMER1_TAV unused
