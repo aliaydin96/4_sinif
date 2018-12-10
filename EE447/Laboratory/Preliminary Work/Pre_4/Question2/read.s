@@ -1,6 +1,3 @@
-; read.s
-; Uses Timer0B to read pulse train on PB7
-
 
 ; 16/32 Timer Registers
 TIMER1_CFG 		EQU 0x40031000 ; Configuration Register

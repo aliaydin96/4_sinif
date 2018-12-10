@@ -32,8 +32,8 @@ SYSCTL_RCGCGPIO 	EQU 0x400FE608 ; GPIO Gate Control
 SYSCTL_RCGCTIMER 	EQU 0x400FE604 ; GPTM Gate Control
 
 ;---------------------------------------------------
-LOW					EQU	0x00000014
-HIGH				EQU	0x0000001E
+LOW					EQU	297
+HIGH				EQU	197
 ;---------------------------------------------------
 					
 			AREA 	routines, CODE, READONLY

@@ -38,8 +38,9 @@ MSG2 			DCB "DUTY CYCLE % "
 __main
 			BL		READ_INIT;	initialize read
 			BL		PULSE_INIT; initialize pulse
+START	
 			MOV		R0,#0; R0 is turn counter 
-			MOV 	R7, #0
+			MOV 	R10, #0
 			MOV 	R8, #0
 			MOV		R6, #0
 			PUSH	{R0}
@@ -56,68 +57,70 @@ loop		LDR 	R1, =TIMER1_RIS
 			LDR		R2, [R1]
 			LDR 	R1, =TIMER1_TAR ; address of timer register
 			LDR 	R0, [R1] ; Get timer register value 
-			CMP		R2, #0x10
-			MOVEQ	R7, #1
-			CMP		R7, #1
-			BEQ		NEGATIVE
-			BNE		POSITIVE
-
-POSITIVE	
-			MOV		R8, #0
-			MOV		R8, R0; R4 0width	>-_-<
-			MOV		R7, #1
-			B		CONT
-NEGATIVE 	
-			MOV		R6, #0
-			MOV		R6,	R0; R4 0width	>-_-<
-			MOV		R7, #0
-			B		loop
+			CMP		R6, #0
+			BEQ		FIRST_NUMBER
+			CMP		R8, #0
+			BEQ 	SECOND_NUMBER
+			CMP		R10, #0
+			BEQ		THIRD_NUMBER
 			
-CONT		
+FIRST_NUMBER			
+			CMP		R2, #0x10 ;IF sees positive edge, contunie
+			BNE		loop  ;if not, go begin
+			MOV		R6, R0	
+			B		loop
+SECOND_NUMBER		
+			MOV		R8, R0
+			B		loop
+THIRD_NUMBER	
+			MOV		R10, R0
+			B		CONTINUE
+			
+			
+CONTINUE		
 			PUSH	{R5, R6, R7, R8}
 			LDR 	R5,=MSG
-			BL 		OutStr
+			BL 		OutStr;to write string above definition
 			POP 	{R5, R6, R7, R8}
-			MOV		R4, #0
-			ADD		R4, R8
+			MOV		R2, #16
+			UDIV	R6, R6, R2  ; r6 to microsec(us)
+			UDIV	R8,	R8, R2	;r8 to us
+			UDIV	R10, R10, R2 ;r10 to us
+			SUB		R4, R6, R8	;to find pulse width
 			PUSH	{R5, R6, R7, R8}
 			LDR		R5,=FIRST;
-			BL		CONVRT
+			BL		CONVRT	
 			LDR		R5,=FIRST;			
-			;PUSH{LR}
-			BL	OutStr
-			;POP{LR}
+			BL	OutStr	; write pulse width
 			POP 	{R5, R6, R7, R8}
 			PUSH	{R5, R6, R7, R8}
 			LDR 	R5,=MSG1
-			BL 		OutStr
+			BL 		OutStr ;write string
 			POP 	{R5, R6, R7, R8}
 			MOV		R4, #0
-			ADD		R4, R6, R8
+			SUB		R4, R6, R10 ;to find period
 			PUSH	{R5, R6, R7, R8}
 			LDR		R5,=FIRST;
-			BL		CONVRT
+			BL		CONVRT 
 			LDR		R5,=FIRST;			
-			;PUSH{LR}
-			BL		OutStr
-			POP 	{R5, R6, R7, R8}
-			;POP{LR}			
+			BL		OutStr ;write period
+			POP 	{R5, R6, R7, R8}			
 			PUSH	{R5, R6, R7, R8}
 			LDR 	R5,=MSG2
-			BL 		OutStr
+			BL 		OutStr ;write string
 			POP 	{R5, R6, R7, R8}
-			UDIV	R4,	R8, R4
-			MOV		R10, #100
-			MUL		R4, R4, R10
+			SUB		R4, R6, R10	;period
+			MOV		R11, #100
+			SUB		R6, R6, R8	;pulse width
+			MUL		R6, R6, R11
+			UDIV	R4,	R6, R4 ;duty cycle
 			PUSH	{R5, R6, R7, R8}
 			LDR		R5,=FIRST;
-			BL		CONVRT
+			BL		CONVRT 
 			LDR		R5,=FIRST;			
-			;PUSH{LR}
-			BL	OutStr
+			BL		OutStr	;write duty cycle
 			POP 	{R5, R6, R7, R8}
-			;POP{LR}
 			
-			B	loop
+			B		START
 			ALIGN
 			END
