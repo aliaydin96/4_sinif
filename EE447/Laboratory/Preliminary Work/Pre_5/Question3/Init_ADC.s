@@ -43,13 +43,13 @@ Init_ADC	PROC
 			; Enable alternate functions
 			LDR R1, =PORTE_AFSEL
 			LDR R0, [R1]
-			ORR R0, R0, #0x08 ; set bit 3 to enable alt functions on PE3
+			ORR R0, R0, #0x04 ; set bit 3 to enable alt functions on PE3
 			STR R0, [R1]
 			
 			
 			LDR R1, =PORTE_DIR
 			LDR R0, [R1]
-			BIC R0, R0, #0x08 ; set bit 3 to input for PE3
+			BIC R0, R0, #0x04 ; set bit 3 to input for PE3
 			STR R0, [R1]
 			; PCTL does not have to be configured
 			; since ADC0 is automatically selected when
@@ -57,12 +57,12 @@ Init_ADC	PROC
 			; Disable digital on PE3
 			LDR R1, =PORTE_DEN
 			LDR R0, [R1]
-			BIC R0, R0, #0x08 ; clear bit 3 to disable analog on PE3
+			BIC R0, R0, #0x04 ; clear bit 3 to disable analog on PE3
 			STR R0, [R1]
 			; Enable analog on PE3
 			LDR R1, =PORTE_AMSEL
 			LDR R0, [R1]
-			ORR R0, R0, #0x08 ; set bit 3 to enable analog on PE3
+			ORR R0, R0, #0x04 ; set bit 3 to enable analog on PE3
 			STR R0, [R1]
 			; Disable sequencer while ADC setup
 			LDR R1, =ADC0_ACTSS
@@ -76,8 +76,9 @@ Init_ADC	PROC
 			STR R0, [R1] ; trigger
 			; Select input channel
 			LDR R1, =ADC0_SSMUX3
-			LDR R0, [R1]
-			BIC R0, R0, #0x000F ; clear bits 3:0 to select AIN0
+			MOV	R0,#0X1
+;			LDR R0, [R1]
+;			BIC R0, R0, #0x000F ; clear bits 3:0 to select AIN0
 			STR R0, [R1]
 			; Config sample sequence
 			LDR R1, =ADC0_SSCTL3

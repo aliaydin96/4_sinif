@@ -32,8 +32,8 @@ SYSCTL_RCGCGPIO 	EQU 0x400FE608 ; GPIO Gate Control
 SYSCTL_RCGCTIMER 	EQU 0x400FE604 ; GPTM Gate Control
 
 ;---------------------------------------------------
-LOW					EQU	0x00000014
-HIGH				EQU	0x0000001E
+LOW					EQU	2*15999999
+HIGH				EQU	5*15999999
 ;---------------------------------------------------
 					
 			AREA 	routines, CODE, READONLY
@@ -106,7 +106,7 @@ PULSE_INIT	PROC
 			BIC R2, R2, #0x01
 			STR R2, [R1]
 			LDR R1, =TIMER0_CFG ; set 16 bit mode
-			MOV R2, #0x04
+			MOV R2, #0x0
 			STR R2, [R1]
 			LDR R1, =TIMER0_TAMR
 			MOV R2, #0x02 ; set to periodic, count down
@@ -114,9 +114,9 @@ PULSE_INIT	PROC
 			LDR R1, =TIMER0_TAILR ; initialize match clocks
 			LDR R2, =LOW
 			STR R2, [R1]
-			LDR R1, =TIMER0_TAPR
-			MOV R2, #15 ; divide clock by 16 to
-			STR R2, [R1] ; get 1us clocks
+;			LDR R1, =TIMER0_TAPR
+;			MOV32 R2, #1599999 ; divide clock by 16 to
+;			STR R2, [R1] ; get 1us clocks
 			LDR R1, =TIMER0_IMR ; enable timeout interrupt
 			MOV R2, #0x01
 			STR R2, [R1]
