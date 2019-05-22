@@ -1,0 +1,19 @@
+abi naber
+ee414_project isimli klasör direkt library. dümdüz kopyaladım sana. Cadence180 klasörünün içine olduğu gibi çıkarırsan sıkıntı olmaz muhtemelen.
+içinde celler ve onların içinde de schematic ve symboller var.
+simulasyon için her şeyi her case de simule edebilrsek güzel olur
+parametrik falan da var malum
+
+line regulationu en azından no load iken tüm temperature aralığını tarayacak şekilde parametrik yapabiliriz.
+
+sonra full load no load u (load regulation değeri için) 3 tane falan supply voltajı değerinde kontrol edebiliriz tek tek ya da parametrik artık hangisi daha anlaşılır oluyorsa.
+
+power ı kontrol etmek biraz sıkıntılı olacak supplyden çektiği ile dirençlerden çektiğini çıkarmak gerekecek. ama ben yarın akşam sana katılırım zaten ya da cumartesi tüm günü buna ayırırım.
+
+bunlardan önce sen devreyi daha iyileştirmek isteyebilirsin tabi denemelerine saygım sonsuz 0 5mV u umarım bulursn :D
+
+olur da layouta geçersen ve saçma sapan bir ekranla karşılaşıp hiç bi şeyi göremezsen muhtemelen library propertsi olarak UMC180 seçili dğeildir abi :D o da başıma geldiydi de öyle bi ıkıntı olursa ben şey ederim.
+
+benim eyyorum bu kadar
+sağlıcakla kalasın.
+
